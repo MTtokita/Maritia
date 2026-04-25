@@ -21,24 +21,6 @@ function Ficha() {
   }
   });
 
-  useEffect(() => {
-    const user = auth.currentUser;
-    if (user && carregado) {
-      localStorage.setItem(`dadosPersonagem_${user.uid}`, JSON.stringify(personagem));
-      salvarFicha();
-    }
-  }, [personagem]);
-
-  useEffect(() => {
-    const user = auth.currentUser;
-    if (user && carregado) {
-      localStorage.setItem(`configLayout_${user.uid}`, JSON.stringify({
-        corTexto, corBordas, corCentro, fundoAtivo, corSombra, bordasAtivas
-      }));
-      salvarFicha();
-    }
-  }, [corTexto, corBordas, corCentro, fundoAtivo, corSombra, bordasAtivas]);
-
   const [bordasAtivas, setBordasAtivas] = useState(false);
   const [configAberto, setConfigAberto] = useState(false);
   const [corBordas, setCorBordas] = useState(localStorage.getItem('corBordas') ||'rgb(65, 104, 139)');
@@ -148,7 +130,9 @@ function Ficha() {
 
 const handleLogout = async () => {
   try {
-    await auth.signOut(); // Em vez de dar reload, apenas deixe o Firebase avisar ao App.jsx que o usuário saiu// Se ainda assim não mudar a tela, use o redirecionamento forçado:
+    await auth.signOut();
+    // Em vez de dar reload, apenas deixe o Firebase avisar ao App.jsx que o usuário saiu
+    // Se ainda assim não mudar a tela, use o redirecionamento forçado:
     window.location.href = "/"; // Isso força a volta para a raiz do projeto
   } catch (error) {
     console.error("Erro ao sair:", error);
