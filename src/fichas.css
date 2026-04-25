@@ -21,9 +21,9 @@ body, html {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: auto;
-  /* Garante que o scroll vertical funcione sempre */
-  overflow-y: visible; 
+  /* IMPORTANTE: permite que a página cresça para baixo sem bugar o fundo */
+  height: auto; 
+  overflow-y: auto; 
 }
 
 @media (orientation: landscape) and (max-height: 500px) {
@@ -58,24 +58,25 @@ body, html {
 }
 
 .are1 {
-  display: grid;
-  grid-template-columns: 1fr; /* Mantendo sua escolha de uma coluna só */
-  gap: 25px; 
-  padding: 20px;
-  background-color: rgba(0, 0, 0, 0.144);  
-  width: 95%; /* Use 95% para não colar nas bordas da tela */
-  max-width: 1200px;
-
-  /* --- A MUDANÇA ESTÁ AQUI --- */
-  height: auto;          /* Deixa a altura ser definida pelo conteúdo */
-  min-height: 800px;     /* Opcional: apenas para a ficha não começar "esmagada" */
-  /* --------------------------- */
-
+  /* O SEGREDO: Use 100% no mobile e max-width para o PC */
+  width: 100%; 
+  max-width: 1000px; 
+  
+  /* Garante que o padding não "empurre" a caixa para fora */
+  box-sizing: border-box; 
+  
+  /* Remove qualquer altura fixa (height: 800px ou min-height) */
+  height: auto; 
+  min-height: auto; 
+  
   margin: 20px auto;
+  padding: 15px; /* Reduzi um pouco para o mobile não esmagar os inputs */
+  background-color: rgba(0, 0, 0, 0.144);
   border-radius: 15px;
   border: 2px solid rgb(65, 104, 139);
-  box-shadow: 0px 10px 20px rgb(45, 48, 53);
-  align-content: start; 
+  
+  /* Impede que o conteúdo interno force a barra para fora */
+  overflow: hidden; 
 }
 .are2 {
   display: grid;
@@ -170,7 +171,7 @@ body, html {
  .counter2 {
     display: grid;
     /* Colunas laterais fixas ou flexíveis, Centro trava em 1000px */
-    grid-template-columns: 1fr minmax(auto, 1000px) 1fr;
+   grid-template-columns: 1fr 1000px 1fr;
     gap: 0; /* Remove espaço entre as imagens e a ficha */
     align-items: start;
   }
@@ -190,7 +191,7 @@ body, html {
   .are2 img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Faz a imagem preencher a grid sem deformar */
+   object-fit: contain; /* Faz a imagem preencher a grid sem deformar */
     margin: 0;
   }
 
@@ -209,18 +210,18 @@ body, html {
     flex-direction: column;
   }
 
-  .are1 {
-    width: 100% !important;
-    margin: 0;
-    border-radius: 0; /* Encosta no vidro do celular */
+ .are1 {
+    width: 100% !important; /* Força a ocupar a largura do celular */
+    margin: 0 !important;   /* Tira as margens que criam o espaço branco */
+    border-radius: 0;       /* Encosta no vidro para não vazar */
     border-left: none;
     border-right: none;
+    padding: 10px;
   }
 
   /* Ajuste dos campos de XP que estão quebrando a horizontal */
-  .xp-container, .linha-dupla {
-    flex-wrap: wrap; /* Faz os inputs de XP descerem se não couberem */
-    gap: 10px;
+ .xp-container, .linha-dupla {
+    flex-wrap: wrap !important;
   }
 
   .xp-container input, .linha-dupla input {
@@ -241,11 +242,8 @@ body, html {
     display: none !important;
   }
 
-@media (orientation: landscape) {
-    .counter2 {
-      height: auto;
-      overflow-y: auto;
-    }
+  input, textarea {
+    max-width: 100% !important; /* Impede que um input largo estique o are1 */
   }
 
 }
