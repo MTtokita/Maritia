@@ -23,11 +23,11 @@ function Ficha() {
 
   const [bordasAtivas, setBordasAtivas] = useState(false);
   const [configAberto, setConfigAberto] = useState(false);
-  const [corBordas, setCorBordas] = useState(localStorage.getItem('corBordas') ||'rgb(65, 104, 139)');
-  const [corCentro, setCorCentro] = useState(localStorage.getItem('corCentro') || 'rgb(255, 255, 255)');
-  const [corTexto, setCorTexto] = useState(localStorage.getItem('corTexto') || '#264364');
-  const [corSombra, setCorSombra] = useState(localStorage.getItem('corSombra') ||'#000000');
-  const [fundoAtivo, setFundoAtivo] = useState(localStorage.getItem('fundoAtivo') ||'https://usagif.com/wp-content/uploads/gifs/water-66.gif');
+  const [corBordas, setCorBordas] = useState(('corBordas') ||'rgb(65, 104, 139)');
+  const [corCentro, setCorCentro] = useState(('corCentro') || 'rgb(255, 255, 255)');
+  const [corTexto, setCorTexto] = useState(('corTexto') || '#264364');
+  const [corSombra, setCorSombra] = useState(('corSombra') ||'#000000');
+  const [fundoAtivo, setFundoAtivo] = useState(('fundoAtivo') ||'https://usagif.com/wp-content/uploads/gifs/water-66.gif');
 
   const salvarFicha = async () => {
     // --- ADICIONADO: Bloqueia o salvamento se ainda estiver carregando ---
@@ -47,17 +47,23 @@ function Ficha() {
     }
   };
 
-  useEffect(() => {
-    localStorage.setItem('dadosPersonagem', JSON.stringify(personagem));
-    salvarFicha();
-  }, [personagem]);
+ useEffect(() => {
+    const user = auth.currentUser;
+    if (user && carregado) {
+      localStorage.setItem(`dados_${user.uid}`, JSON.stringify(personagem));
+      salvarFicha();
+    }
+  }, [personagem, carregado]);
 
-  useEffect(() => {localStorage.setItem('bordasAtivas', bordasAtivas); salvarFicha();}, [bordasAtivas]);
-  useEffect(() => { localStorage.setItem('corTexto', corTexto); salvarFicha(); }, [corTexto]);
-  useEffect(() => { localStorage.setItem('corBordas', corBordas); salvarFicha(); }, [corBordas]);
-  useEffect(() => { localStorage.setItem('corCentro', corCentro); salvarFicha(); }, [corCentro]);
-  useEffect(() => { localStorage.setItem('fundoAtivo', fundoAtivo); salvarFicha(); }, [fundoAtivo]);
-  useEffect(() => { localStorage.setItem('corSombra', corSombra); salvarFicha(); }, [corSombra]);
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (user && carregado) {
+      localStorage.setItem(`layout_${user.uid}`, JSON.stringify({
+        corTexto, corBordas, corCentro, fundoAtivo, corSombra, bordasAtivas
+      }));
+      salvarFicha();
+    }
+  }, [corTexto, corBordas, corCentro, fundoAtivo, corSombra, bordasAtivas, carregado]);
 
   const estiloPainel = { backgroundColor: corCentro, borderColor: bordasAtivas ? corBordas : 'transparent', borderStyle: 'solid', borderWidth: '2px', color: corTexto, boxShadow: `0px 0px 15px ${corSombra}`, transition: '0.3s' };
 
@@ -131,6 +137,7 @@ function Ficha() {
 const handleLogout = async () => {
   try {
     await auth.signOut();
+    localStorage.clear();
     // Em vez de dar reload, apenas deixe o Firebase avisar ao App.jsx que o usuário saiu
     // Se ainda assim não mudar a tela, use o redirecionamento forçado:
     window.location.href = "/"; // Isso força a volta para a raiz do projeto
