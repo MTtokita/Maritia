@@ -2,13 +2,6 @@
   box-sizing: border-box;
 }
 
-body {
-  background-image: url('https://usagif.com/wp-content/uploads/gifs/water-66.gif');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed; /* O fundo não rola junto com a ficha */
-}
-
 .counter2 {
   background-image: url('https://usagif.com/wp-content/uploads/gifs/water-66.gif');
   background-size: cover;
