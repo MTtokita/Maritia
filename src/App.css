@@ -65,7 +65,7 @@ html, body, #root {
 
 .are0 {
   /* Removemos a imagem de fundo daqui para ela não brigar com o preto */
-  background-color: #000 !important; 
+  background-color: rgba(0, 0, 0, 0.24) !important; 
   
   display: flex;
   align-items: center;
@@ -98,8 +98,8 @@ font-size: 350%;
   }
   
   .are0 img {
-    width: 85%; /* Logo grande mas contida no celular */
-    max-width: 320px;
+    width: 95%; /* Logo grande mas contida no celular */
+    max-width: 620px;
   }
 }
 
