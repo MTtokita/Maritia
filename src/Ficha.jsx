@@ -9,26 +9,23 @@ function Ficha() {
   // --- ADICIONADO: Trava de segurança ---
   const [carregado, setCarregado] = useState(false);
 
-  const [personagem, setPersonagem] = useState(() => {
-  const salvo = localStorage.getItem('dadosPersonagem');
-  return salvo ? JSON.parse(salvo) : {
+  const [personagem, setPersonagem] = useState({
     foto: null, nome: 'Herói Sem Nome', raca: 'Humano', classes: ['Guerreiro'],
     funcao: 'Tanque', level: 1, xpAtual: 0, xpProximo: 1000, HP: 10, estamina: 30, mana: 15,
     statusAdicionais: [{ nome: 'Armadura', valor: 0 }],
     atributos: { forca: 10, agilidade: 10, destreza: 10, sabedoria: 10, instintoSB: 10, carisma: 10 },
     inventario: [{ nome: ' item ', qtd: 1, desc: 'descreva o item' }],
     skills: [], acertoMinimo: 0, especializacoes: [{ arma: 'Espada', nivel: 0 }],
-  }
   });
 
   const [bordasAtivas, setBordasAtivas] = useState(false);
   const [configAberto, setConfigAberto] = useState(false);
-  const [corBordas, setCorBordas] = useState(('corBordas') ||'rgb(65, 104, 139)');
-  const [corCentro, setCorCentro] = useState(('corCentro') || 'rgb(255, 255, 255)');
-  const [corTexto, setCorTexto] = useState(('corTexto') || '#264364');
-  const [corSombra, setCorSombra] = useState(('corSombra') ||'#000000');
-  const [fundoAtivo, setFundoAtivo] = useState(('fundoAtivo') ||'https://usagif.com/wp-content/uploads/gifs/water-66.gif');
-
+  const [corBordas, setCorBordas] = useState('rgb(65, 104, 139)');
+  const [corCentro, setCorCentro] = useState('rgb(255, 255, 255)');
+  const [corTexto, setCorTexto] = useState('#264364');
+  const [corSombra, setCorSombra] = useState('#000000');
+  const [fundoAtivo, setFundoAtivo] = useState('https://usagif.com/wp-content/uploads/gifs/water-66.gif');
+  
   const salvarFicha = async () => {
     // --- ADICIONADO: Bloqueia o salvamento se ainda estiver carregando ---
     if (!carregado) return;
@@ -110,28 +107,43 @@ function Ficha() {
     boxShadow: `inset 900px 0px 0px rgba(0,0,0,0.12), 0px 2px 5px ${corSombra}44`, outline: 'none', transition: '0.3s',
   };
 
-  useEffect(() => {
-    const carregarDadosIndividuais = async () => {
-      const user = auth.currentUser;
+ useEffect(() => {
+    // Escuta o estado do Firebase para garantir que o usuário logou após o F5
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
+        // 1. Tenta carregar do LocalStorage individual para ser instantâneo
+        const fichaLocal = localStorage.getItem(`dados_${user.uid}`);
+        if (fichaLocal) setPersonagem(JSON.parse(fichaLocal));
+        
+        const layoutLocal = localStorage.getItem(`layout_${user.uid}`);
+        if (layoutLocal) {
+          const L = JSON.parse(layoutLocal);
+          if (L.corTexto) setCorTexto(L.corTexto);
+          if (L.corBordas) setCorBordas(L.corBordas);
+          if (L.corCentro) setCorCentro(L.corCentro);
+          if (L.fundoAtivo) setFundoAtivo(L.fundoAtivo);
+          if (L.corSombra) setCorSombra(L.corSombra);
+          if (L.bordasAtivas !== undefined) setBordasAtivas(L.bordasAtivas);
+        }
+
+        // 2. Busca a "Verdade Absoluta" no Firebase para sincronizar
         const userRef = doc(db, "usuarios", user.uid);
         const docSnap = await getDoc(userRef);
         if (docSnap.exists()) {
-          const dadosRecuperados = docSnap.data();
-          if (dadosRecuperados.ficha) setPersonagem(dadosRecuperados.ficha);
-          if (dadosRecuperados.corTexto) setCorTexto(dadosRecuperados.corTexto);
-          if (dadosRecuperados.corBordas) setCorBordas(dadosRecuperados.corBordas);
-          if (dadosRecuperados.corCentro) setCorCentro(dadosRecuperados.corCentro);
-          if (dadosRecuperados.fundoAtivo) setFundoAtivo(dadosRecuperados.fundoAtivo);
-          if (dadosRecuperados.corSombra) setCorSombra(dadosRecuperados.corSombra);
-          if (dadosRecuperados.bordasAtivas !== undefined) setBordasAtivas(dadosRecuperados.bordasAtivas);
-          console.log("Memórias de Maritia recuperadas!");
+          const d = docSnap.data();
+          if (d.ficha) setPersonagem(d.ficha);
+          if (d.corTexto) setCorTexto(d.corTexto);
+          if (d.corBordas) setCorBordas(d.corBordas);
+          if (d.corCentro) setCorCentro(d.corCentro);
+          if (d.fundoAtivo) setFundoAtivo(d.fundoAtivo);
+          if (d.corSombra) setCorSombra(d.corSombra);
+          if (d.bordasAtivas !== undefined) setBordasAtivas(d.bordasAtivas);
         }
       }
-      // --- ADICIONADO: Autoriza o salvamento agora que o load acabou ---
-      setCarregado(true);
-    };
-    carregarDadosIndividuais();
+      setCarregado(true); // Libera o salvamento
+    });
+
+    return () => unsubscribe(); // Limpa o observador ao fechar
   }, []);
 
 const handleLogout = async () => {
