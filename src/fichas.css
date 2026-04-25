@@ -859,35 +859,33 @@ input, textarea {
 }
 
 @media screen and (max-width: 932px) and (orientation: landscape) {
-    
+
+    /* 1. Faz o are1 ocupar a tela toda para o Status não vazar */
     .are1 {
-        /* 1. Garante que ele não "vaze" para a direita */
         width: 100% !important;
         max-width: 100vw !important;
-        margin: 0 auto !important;
-        
-        /* 2. Permite que o container cresça para baixo para mostrar o conteúdo */
-        height: auto !important;
-        min-height: 100% !important;
-        
-        /* 3. Evita que o padding interno empurre a borda para fora */
+        margin: 0 !important;
+        padding: 10px !important;
         box-sizing: border-box !important;
-        
-        /* 4. Força o conteúdo interno a caber na largura disponível */
-        overflow-x: hidden !important;
         display: block !important;
     }
 
-    /* 5. Ajuste interno para os componentes não "brigarem" por espaço na horizontal */
-    .are1 > * {
-        max-width: 100% !important;
-        box-sizing: border-box !important;
+    /* 2. Esconde a PRIMEIRA imagem lateral (are2) para ganhar espaço */
+    /* Isso impede que ela empurre o are1 para fora da tela */
+    .counter2 .are2:first-of-type {
+        display: none !important;
     }
 
-    /* 6. Garante que o fundo (counter2) acompanhe a rolagem da ficha deitada */
+    /* 3. Garante que a SEGUNDA imagem lateral (are2) continue aparecendo no final */
+    .counter2 .are2:last-of-type {
+        display: block !important;
+        width: 100%;
+    }
+
+    /* 4. Destrava o fundo para você conseguir rolar e ver tudo */
     .counter2 {
+        display: block !important;
         height: auto !important;
         overflow-y: auto !important;
-        display: block !important;
     }
 }
