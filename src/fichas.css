@@ -19,6 +19,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center; /* Centraliza a ficha dentro dele */
+  height: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 @media (orientation: landscape) and (max-height: 500px) {
@@ -97,6 +100,8 @@ body {
 .are2 img{
 width: 100%;
 object-fit: cover; 
+max-width: 1000px;    /* NO PC, trava em 1000px para não esticar */
+  margin: 20px auto;  
 }
 
 .areTOP {
@@ -899,4 +904,17 @@ input, textarea {
     font-weight: bold;
     text-transform: uppercase;
     font-size: 14px;
+}
+
+@media (orientation: landscape) {
+  .are1 {
+    margin: 10px auto; /* Reduz o respiro no topo para ganhar espaço */
+    width: 90%;        /* Deixa a ficha um pouco mais larga para aproveitar o espaço horizontal */
+  }
+
+  /* Se o modal de descrição estiver aberto, ele precisa rolar sozinho */
+  .modal-conteudo {
+    max-height: 80vh; 
+    overflow-y: auto;
+  }
 }
