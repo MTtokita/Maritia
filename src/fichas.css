@@ -2,6 +2,13 @@
   box-sizing: border-box;
 }
 
+body {
+  background-image: url('https://usagif.com/wp-content/uploads/gifs/water-66.gif');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* O fundo não rola junto com a ficha */
+}
+
 .counter2 {
   background-image: url('https://usagif.com/wp-content/uploads/gifs/water-66.gif');
   background-size: cover;
@@ -12,15 +19,34 @@
   width: 100%;
   height: auto;
   overflow-x: hidden;
-  max-width: 1200px;
+ max-width: 1000px;
+ margin: 20px auto;
   /* Removi o Flex daqui para não conflitar com o Grid da @media */
 }
 
 @media (orientation: landscape) and (max-height: 500px) {
   .modal-config {
-    max-height: 90vh; /* Evita que o modal de cores suma no topo */
-    overflow-y: auto;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-conteudo {
+  width: 90%;
+  max-width: 600px; /* No PC, o modal fica pequeno e centralizado */
+  padding: 20px;
+  border-radius: 10px;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+  
 
   /* Se você usa uma grid de 2 colunas, talvez seja melhor 
      manter 1 coluna só se a altura for muito pequena */
