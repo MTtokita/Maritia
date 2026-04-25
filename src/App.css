@@ -38,8 +38,10 @@ html, body, #root {
  align-items: center;
  grid: 50%;
  background-color: rgb(255, 255, 255);  
-  width:auto;
-  height: 900px;
+ width: 95%;        /* Ocupa quase toda a largura no mobile */
+ max-width: 1200px; /* Limite para telas grandes */
+ height: auto;      /* Deixa o conteúdo definir a altura */
+ min-height: 400px; /* Altura mínima base */
   justify-content: center;
   border-radius: 2%;
   box-shadow: 0px 10px 30px rgb(0, 65, 161);
@@ -50,8 +52,10 @@ html, body, #root {
  align-items: center;
  grid: 50%;
  background-color: rgb(255, 255, 255);  
-  width:auto;
-  height: 900px;
+  width: 95%;        /* Ocupa quase toda a largura no mobile */
+  max-width: 1200px; /* Limite para telas grandes */
+  height: auto;      /* Deixa o conteúdo definir a altura */
+ min-height: 400px; /* Altura mínima base */
   justify-content: center;
   border-radius: 2%;
   border: solid;
@@ -75,7 +79,9 @@ html, body, #root {
  grid: 100%; 
   justify-content: center;
   width: 100%;
-  height: 700px; /* Ajuste essa altura para o tamanho que você quer que o fundo ocupe */
+  height: auto;      /* Deixe o height automático no mobile */
+min-height: 300px; /* Altura mínima para a logo aparecer bem */
+  max-height: 50vh;  /* Não deixa a logo ocupar mais que metade da tela *
   background: rgba(0, 0, 0, 0.048); /* O fundo preto que você quer preencher */
   display: flex;
   align-items: center; /* Centraliza a logo no meio do fundo preto */
@@ -91,9 +97,10 @@ font-size: 350%;
 }
 
 .are0 img {
-  height: 600px;      
-  object-fit: cover; 
-  transform: translateY(-10px); 
+  width: 90%;        /* A imagem se ajusta à largura da tela */
+  height: auto;      /* Mantém a proporção */
+  max-width: 600px;  /* Tamanho máximo que ela pode ter */
+  object-fit: contain; 
 }
 
 @media (min-width: 768px) {
@@ -121,20 +128,23 @@ font-size: 350%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  width: 100vh ;
-  background: rgba(0, 0, 0, 0.7); /* Fundo escuro para destacar a Maritia */
+  min-height: 100vh; /* Use min-height em vez de height fixo */
+  width: 100%;       /* Corrigido de 100vh para 100% */
+  background: rgba(0, 0, 0, 0.7);
   color: white;
   font-family: 'Inter', sans-serif;
+  overflow-x: hidden; /* Evita rolar para os lados */
 }
 
 .auth-box {
   background: #2c3e50;
-  padding: 40px;
+  padding: 30px;     /* Reduzi um pouco para ganhar espaço */
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.24);
   text-align: center;
-  width: 520px;
+  width: 90%;        /* No mobile ele ocupa 90% da largura */
+  max-width: 520px;  /* Só chega a 520px se a tela for grande */
+  margin: 20px;      /* Margem para não colar na borda do celular */
 }
 
 .auth-box input {
@@ -218,4 +228,11 @@ font-size: 350%;
   margin-top: 15px;
   cursor: pointer;
   text-decoration: underline;
+}
+
+body {
+  background-color: #1a1a1a; /* Mesma cor do seu tema escuro */
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
