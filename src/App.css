@@ -64,32 +64,19 @@ html, body, #root {
 }
 
 .are0 {
-  background-image: url('https://usagif.com/wp-content/uploads/gifs/water-66.gif');
-
-  /* Garante que a imagem cubra a tela toda sem repetir */
-  background-size: cover;
+  /* Removemos a imagem de fundo daqui para ela não brigar com o preto */
+  background-color: #000 !important; 
   
-  /* Mantém a imagem centralizada */
-  background-position: center;
-  
-  /* Faz com que o fundo não role junto com a página (opcional, fica elegante) */
-  background-attachment: fixed;
- display: flex;
- align-items: center;
- grid: 100%; 
+  display: flex;
+  align-items: center;
   justify-content: center;
   width: 100%;
-  height: auto;      /* Deixe o height automático no mobile */
-min-height: 300px; /* Altura mínima para a logo aparecer bem */
-  max-height: 50vh;  /* Não deixa a logo ocupar mais que metade da tela *
-  background: rgba(0, 0, 0, 0.048); /* O fundo preto que você quer preencher */
-  display: flex;
-  align-items: center; /* Centraliza a logo no meio do fundo preto */
+  
+  /* No PC, vamos manter uma altura legal */
+  height: 400px; 
   overflow: hidden;
   position: relative;
-  
 }
-
 .are0 h1 {
   color: rgb(0, 0, 0);
 font-family: 'Courier New', Courier, monospace;
@@ -97,10 +84,23 @@ font-size: 350%;
 }
 
 .are0 img {
-  width: 90%;        /* A imagem se ajusta à largura da tela */
-  height: auto;      /* Mantém a proporção */
-  max-width: 600px;  /* Tamanho máximo que ela pode ter */
-  object-fit: contain; 
+  width: 600px; 
+  height: auto;
+  object-fit: contain;
+  /* Removemos o translateY para não deslocar a logo sem querer */
+}
+
+@media (max-width: 767px) {
+  .are0 {
+    height: auto;
+    min-height: 250px;
+    padding: 20px 0;
+  }
+  
+  .are0 img {
+    width: 85%; /* Logo grande mas contida no celular */
+    max-width: 320px;
+  }
 }
 
 @media (min-width: 768px) {
