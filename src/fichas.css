@@ -857,3 +857,37 @@ input, textarea {
     text-transform: uppercase;
     font-size: 14px;
 }
+
+@media screen and (max-width: 932px) and (orientation: landscape) {
+    
+    .are1 {
+        /* 1. Garante que ele não "vaze" para a direita */
+        width: 100% !important;
+        max-width: 100vw !important;
+        margin: 0 auto !important;
+        
+        /* 2. Permite que o container cresça para baixo para mostrar o conteúdo */
+        height: auto !important;
+        min-height: 100% !important;
+        
+        /* 3. Evita que o padding interno empurre a borda para fora */
+        box-sizing: border-box !important;
+        
+        /* 4. Força o conteúdo interno a caber na largura disponível */
+        overflow-x: hidden !important;
+        display: block !important;
+    }
+
+    /* 5. Ajuste interno para os componentes não "brigarem" por espaço na horizontal */
+    .are1 > * {
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 6. Garante que o fundo (counter2) acompanhe a rolagem da ficha deitada */
+    .counter2 {
+        height: auto !important;
+        overflow-y: auto !important;
+        display: block !important;
+    }
+}
