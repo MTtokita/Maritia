@@ -171,7 +171,7 @@ const estiloTitulo = {
     </div>
 
       <div className='areTOP' style={{ backgroundImage: `url(${fundoAtivo})` }}>
-        <img src={maritia} alt="maritia" style={{ width: '450px' }} />
+        <img src={maritia} alt="maritia" style={{ width: '650px' }} />
 
       </div>
 

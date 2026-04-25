@@ -86,7 +86,7 @@ object-fit: cover;
   object-fit: cover; 
   transform: none !important;
   width: 90%;
-  max-width: 500px;
+  max-width: 680px;
   margin: 0 auto;
 }
 
@@ -156,6 +156,17 @@ object-fit: cover;
   .xp-container input, .linha-dupla input {
     width: 100% !important; /* Faz cada input ocupar sua própria linha no celular */
   }
+
+.counter2 .are2:first-of-type {
+    display: none !important;
+  }
+
+  /* Garante que a 'are2' do final (a segunda) continue aparecendo */
+  .counter2 .are2:last-of-type {
+    display: block !important;
+    width: 100%;
+  }
+
 }
 
 
