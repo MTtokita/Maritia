@@ -1,0 +1,221 @@
+
+
+.counter {
+  /* Importante: o caminho deve apontar para onde sua imagem está */
+  background-image: url('https://usagif.com/wp-content/uploads/gifs/water-66.gif');
+
+  /* Garante que a imagem cubra a tela toda sem repetir */
+  background-size: cover;
+  
+  /* Mantém a imagem centralizada */
+  background-position: center;
+  
+  /* Faz com que o fundo não role junto com a página (opcional, fica elegante) */
+  background-attachment: fixed;
+  background-color: rgb(53, 53, 53); 
+  min-height: 100vh;    
+  width: 100%;
+  display: flex;        
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.are2 {
+ display: flex;
+ align-items: center;
+ grid: 50%;
+ background-color: rgb(255, 255, 255);  
+  width:auto;
+  height: 900px;
+  justify-content: center;
+  border-radius: 2%;
+  box-shadow: 0px 10px 30px rgb(0, 65, 161);
+}
+
+.are1 {
+ display: flex;
+ align-items: center;
+ grid: 50%;
+ background-color: rgb(255, 255, 255);  
+  width:auto;
+  height: 900px;
+  justify-content: center;
+  border-radius: 2%;
+  border: solid;
+  border-color: rgb(17, 0, 255);
+  box-shadow: 0px 10px 30px rgb(0, 65, 161);
+}
+
+.are0 {
+  background-image: url('https://usagif.com/wp-content/uploads/gifs/water-66.gif');
+
+  /* Garante que a imagem cubra a tela toda sem repetir */
+  background-size: cover;
+  
+  /* Mantém a imagem centralizada */
+  background-position: center;
+  
+  /* Faz com que o fundo não role junto com a página (opcional, fica elegante) */
+  background-attachment: fixed;
+ display: flex;
+ align-items: center;
+ grid: 100%; 
+  justify-content: center;
+  width: 100%;
+  height: 700px; /* Ajuste essa altura para o tamanho que você quer que o fundo ocupe */
+  background: rgba(0, 0, 0, 0.048); /* O fundo preto que você quer preencher */
+  display: flex;
+  align-items: center; /* Centraliza a logo no meio do fundo preto */
+  overflow: hidden;
+  position: relative;
+  
+}
+
+.are0 h1 {
+  color: rgb(0, 0, 0);
+font-family: 'Courier New', Courier, monospace;
+font-size: 350%;
+}
+
+.are0 img {
+  height: 600px;      
+  object-fit: cover; 
+  transform: translateY(-10px); 
+}
+
+@media (min-width: 768px) {
+  .counter {
+    display: grid;
+    grid-template-columns: 1fr, 3fr, 1fr; 
+    gap: 10px; 
+    min-height: 100vh;
+    padding: 5px;
+  }
+}
+
+/* Layout para Celular (Telas menores) */
+@media (max-width: 767px) {
+  .counter {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 5px;
+    padding: 2px;
+  }
+}
+
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vh ;
+  background: rgba(0, 0, 0, 0.7); /* Fundo escuro para destacar a Maritia */
+  color: white;
+  font-family: 'Inter', sans-serif;
+}
+
+.auth-box {
+  background: #2c3e50;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.24);
+  text-align: center;
+  width: 520px;
+}
+
+.auth-box input {
+  width: 80%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.9) !important; /* Branco sólido ou quase sólido */
+  color: #333 !important; /* Texto escuro para dar leitura */
+  border: 1px solid #ccc;
+}
+
+.auth-box button {
+  width: 90%;
+  padding: 12px;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.auth-link {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #09bcf3;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.error-message {
+  background-color: rgba(231, 76, 60, 0.2); /* Vermelho transparente */
+  color: #e74c3c;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #e74c3c;
+  margin-bottom: 15px;
+  font-size: 14px;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-sobrepor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  backdrop-filter: blur(8px);
+}
+
+.modal-sobrepor h3 {color: aliceblue;}
+.modal-sobrepor p {color: rgb(146, 146, 146);}
+
+.modal-conteudo {
+  background-color: #1a1a1a; /* Cor de fundo do seu box */
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid #41688b;
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+}
+
+.modal-conteudo input { border: 1px solid #ccc;}
+
+.btn-cancelar {
+  background: none !important;
+  color: #ff4d4d !important;
+  border: none !important;
+  margin-top: 15px;
+  cursor: pointer;
+  text-decoration: underline;
+}

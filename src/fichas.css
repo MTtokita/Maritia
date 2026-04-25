@@ -1,0 +1,834 @@
+.counter2 {
+  background-image: url('https://usagif.com/wp-content/uploads/gifs/water-66.gif');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-color: rgb(53, 53, 53); 
+  min-height: 100vh;    
+  width: 100%;
+  height: auto;
+  /* Removi o Flex daqui para não conflitar com o Grid da @media */
+}
+
+.are1 {
+  display: grid;
+  grid-template-columns: 1fr; /* Mantendo sua escolha de uma coluna só */
+  gap: 25px; 
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.144);  
+  width: 95%; /* Use 95% para não colar nas bordas da tela */
+  max-width: 1200px;
+
+  /* --- A MUDANÇA ESTÁ AQUI --- */
+  height: auto;          /* Deixa a altura ser definida pelo conteúdo */
+  min-height: 800px;     /* Opcional: apenas para a ficha não começar "esmagada" */
+  /* --------------------------- */
+
+  margin: 20px auto;
+  border-radius: 15px;
+  border: 2px solid rgb(65, 104, 139);
+  box-shadow: 0px 10px 20px rgb(45, 48, 53);
+  align-content: start; 
+}
+.are2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+  gap: 15px; 
+   /* Um pouco de padding ajuda a não colar as bordas */
+  
+  background-color: rgba(255, 255, 255, 0.05);  
+  width: 95%;
+  max-width: 1200px;
+
+  /* --- A MUDANÇA ESTÁ AQUI --- */
+  height: auto;           /* Faz a altura ser automática baseada no conteúdo */
+  min-height: 100vh;      /* Garante que ela ocupe no mínimo a tela inteira */
+  /* --------------------------- */
+
+  margin: 20px auto;
+  box-shadow: 0px 10px 20px rgb(45, 48, 53);
+  align-content: start; 
+  
+  /* Se quiser que o fundo acompanhe o crescimento sem "quebrar" */
+  overflow: hidden; 
+}
+.are2 img{
+width: 100%;
+object-fit: cover; 
+}
+
+.areTOP {
+ background-image: url('https://usagif.com/wp-content/uploads/gifs/water-66.gif');
+
+  /* Garante que a imagem cubra a tela toda sem repetir */
+  background-size: cover;
+  
+  /* Mantém a imagem centralizada */
+  background-position: center;
+  
+  /* Faz com que o fundo não role junto com a página (opcional, fica elegante) */
+  background-attachment: fixed;
+ display: flex;
+ align-items: center;
+ grid: 100%; 
+  justify-content: center;
+  width: 100%;
+  height: 200px; /* Ajuste essa altura para o tamanho que você quer que o fundo ocupe */
+  display: flex;
+  align-items: center; /* Centraliza a logo no meio do fundo preto */
+  overflow: hidden;
+  position: relative;
+  
+}
+
+.areTOP img {
+  height: 600px;      
+  object-fit: cover; 
+  transform: translateY(-170px); 
+}
+
+.coisas1 {
+  /* REMOVIDO: width e height fixos de 500px */
+  background-color: white;  
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  /* Faz a caixa ocupar o espaço que o Grid deu pra ela */
+  width: 100%; 
+  /* Altura mínima para não ficar "achatado", mas cresce se tiver muito texto */
+  min-height: 360px; 
+}
+
+.coisas2 {
+  display: flex;
+  flex-direction: column; /* Título em cima, grid embaixo */
+  padding: 15px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Layout para Desktop */
+@media (min-width: 768px) {
+  .counter2 {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr; 
+    gap: 20px; 
+    padding: 0px;
+  }
+
+  .coisas2 {
+    transform: translateY(0px);
+  }
+
+}
+
+/* Layout para Celular */
+@media (max-width: 767px) {
+  
+  /* Substitua '.barra-lateral' pelo nome da classe das suas barras laterais */
+  .are2 { 
+    display: none !important; 
+  }
+
+  .counter2 {
+    /* Ajusta a grid principal para ter apenas 1 coluna no celular */
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 0px;
+  }
+
+  .are1 {
+    /* Garante que o conteúdo principal ocupe a largura toda no celular */
+    width: 95%;
+    margin: 0 auto;
+    height: auto;          /* Deixa a altura ser definida pelo conteúdo */
+  min-height: 800px;
+  }
+}
+
+
+.header-personagem {
+  flex-direction: row !important; /* Foto ao lado dos dados */
+  align-items: flex-start !important;
+  padding: 25px;
+  gap: 30px;
+}
+
+.foto-container {
+  flex-shrink: 0;
+}
+
+.circulo-foto {
+  width: 150px;
+  height: 150px;
+  border-radius: 10px; /* Quadrado arredondado fica estiloso */
+  background-color: #ddd;
+  background-size: cover;
+  background-position: center;
+  border: 3px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #41688b;
+}
+
+.dados-principais {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.campo-input {
+  display: flex;
+  flex-direction: column;
+}
+
+.campo-input label {
+  font-size: 11px;
+  font-weight: bold;
+  color: #41688b;
+  margin-bottom: 4px;
+}
+
+.campo-input input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+.xp-inputs label {
+  font-size: 11px;
+  font-weight: bold;
+  color: #41688b;
+  margin-bottom: 4px;
+}
+
+.xp-inputs input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+.linha-dupla, .xp-container {
+  display: flex;
+  gap: 15px;
+}
+
+.xp-container {
+  text-align: center;
+}
+
+.lista-classes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+div.coisas3.painel-inventario {
+    box-shadow: inherit !important;
+}
+
+.lista-classes input {
+  width: 120px;
+} 
+
+.btn-add {
+  all: unset;                /* Reseta estilos padrão que podem vir do navegador */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #17ac55;
+  color: white;
+  border-radius: 4px;
+  width: 18px;               /* Tamanho fixo para o botão de classe */
+  height: 18px;
+  cursor: pointer;
+  margin-left: 8px;          /* Espaço entre a palavra e o botão */
+  font-size: 14px;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.skill-controls .btn-add{ 
+  width: 90px;               /* Tamanho fixo para o botão de classe */
+  height: 40px;
+}
+
+.btn-add:hover {
+  background-color: #1ed168;
+  transform: scale(1.2);
+}
+
+.input-curto { width: 60px; }
+
+.flex-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* No Mobile, a foto fica em cima dos dados */
+@media (max-width: 767px) {
+  .header-personagem {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+}
+
+
+.moldura-global {
+  /* Fixa na tela inteira */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  /* A espessura da moldura (ex: 20px) */
+  /* Ajuste as cores para combinar com o tema Maritia */
+  border: 0px solid transparent;
+  border-image: linear-gradient(to bottom, #41688b00, #0041a1) 1;
+  
+  /* SOMBRA INTERNA para dar profundidade */
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
+
+  /* O SEGREDO: permite clicar no que está atrás da moldura */
+  pointer-events: none;
+
+  /* Garante que fique na frente de tudo (z-index altíssimo) */
+  z-index: 9999;
+
+  background-image: url('assets/ci.png');
+background-size: 100% 100%;
+background-repeat: no-repeat;
+}
+
+.status-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* MÁGICA: Empurra tudo para a direita */
+  gap: 10px;
+  width: 100%;
+}
+
+.campo-input-status {
+  display: flex;
+  align-items: center; /* Alinha label e input na mesma linha */
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.campo-input-status label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #41688b;
+}
+
+.campo-input-status input {
+  text-align: center;
+  border: 1px solid #41688b;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.status-titulo {
+  width: 100%;
+  text-align: center;
+  color: rgb(30, 76, 204);
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(30, 76, 204, 0.2);
+  padding-bottom: 5px;
+}
+
+ .coisas2, .coisas3 {
+  width: 100% !important;
+  height: auto !important;
+  box-sizing: border-box;
+  display: block; /* Garante que se comporte como bloco */
+}
+
+
+.secao-inferior {
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* Atributos menor, Inventário maior */
+  gap: 20px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.secao-inferior h3 {  color: #374275;}
+
+.coisas3 {
+  /* Removi o background: white e a box-shadow fixa daqui */
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  
+  /* MUITO IMPORTANTE: */
+  overflow: visible !important; 
+  display: block; 
+  position: relative;
+}
+
+/* Estilo Atributos */
+.grid-attr {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.attr-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #b9cee2;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+/* Estilo Inventário */
+.inv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.inv-header button { border-radius: 4px; height: 30px; background-color: #10b361; border: #dddddd00; color: #ffffff; } 
+
+
+
+.item-inv {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #cacaca;
+  padding-bottom: 5px;
+  background-color: #eff6ff;
+  border-radius: 5px;
+  height: 46px;
+}
+
+.item-inv input { flex: 2; border-radius: 8px;}
+.item-inv .input-qtd { flex: 0.5; text-align: center; width: 60px;}
+.item-inv textarea { 
+  flex: 3; 
+  height: 35px; 
+  font-size: 12px; 
+  resize: none;
+  border-radius: 8px;
+  border: 2px solid;
+  border-color: #2b2b2b;
+  height: 45px;
+}
+
+.btn-del {
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 20px;
+}
+
+/* Mobile: Um embaixo do outro */
+@media (max-width: 767px) {
+  .secao-inferior {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+.input-nome-status {
+  border: none;
+  border-bottom: 1px solid #41688b;
+  text-align: right;
+  font-size: 12px;
+  font-weight: bold;
+  color: #41688b;
+  width: 100px;
+  background: transparent;
+}
+
+.campo-input-status {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Mantém tudo colado na direita */
+  gap: 8px;
+  margin-bottom: 5px;
+}
+
+.btn-add-status {
+  background-color: #27ae60; /* Verde para indicar adição */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 10px;
+  transition: transform 0.2s;
+}
+
+.btn-add-status:hover {
+  transform: scale(1.1); /* Dá um zoomzinho quando passa o mouse */
+  background-color: #2ecc71;
+}
+
+.inv-header .btn-add-status{
+  width:40px;
+}
+
+
+
+/* O Card agora é um container flex vertical */
+.skill-card {
+  background: rgb(255, 255, 255);
+  border: 2px solid #41688b;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column; /* Alinha os itens em pé */
+  min-height: 400px;      /* Altura mínima maior para não sobrar branco */
+  position: relative;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+/* Centralização do Topo */
+.skill-topo-central {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.skill-tipo-label {
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: #17ac55; /* Verde para dar destaque ao tipo */
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.skill-nome-grande {
+  font-size: 24px;      /* Nome bem grande */
+  font-weight: 900;
+  color: #41688b;
+  border: none;
+  border-bottom: 2px solid #eee;
+  text-align: center;
+  width: 100%;
+  background: transparent;
+  text-transform: uppercase;
+}
+
+/* A ÁREA DE TEXTO QUE PREENCHE TUDO */
+.skill-desc-grande {
+  flex-grow: 1;         /* ISSO AQUI: Faz o campo "empurrar" tudo e ocupar o fundo */
+  width: 100%;
+  border: 1px solid #f0f0f0;
+  background-color: #fcfcfc;
+  border-radius: 8px;
+  padding: 15px;
+  font-size: 16px;      /* Texto de leitura fácil */
+  line-height: 1.5;
+  resize: none;         /* Retira o puxador manual para manter o design */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #444;
+}
+
+/* Botão de remover no cantinho */
+.btn-remover-skill {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: #ff4d4d;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.btn-remover-skill:hover {
+  transform: scale(1.2);
+}
+
+.skill-controls {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+
+
+
+
+/* Botão Flutuante */
+.btn-config-fixo {
+  /* MUDE OU ADICIONE ESTA LINHA */
+  position: absolute; 
+  
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  font-size: 24px;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid white;
+  border-radius: 50%;
+  padding: 10px;
+  width: 50px;   /* Adicionado para manter o círculo perfeito */
+  height: 50px;  /* Adicionado para manter o círculo perfeito */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+/* Overlay (Fundo Escuro) */
+.overlay-config {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Caixa do Modal */
+.modal-config {
+  background: #1a1a1a;
+  color: white;
+  padding: 30px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  border: 2px solid #41688b;
+}
+
+.grid-fundos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.miniatura-fundo {
+  height: 60px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-size: cover;
+  border: 2px solid transparent;
+}
+.miniatura-fundo:hover { border-color: #17ac55; }
+
+.config-secao { margin-bottom: 20px; }
+.config-secao input[type="text"] { width: 100%; padding: 8px; border-radius: 5px;}
+.config-secao2 input[type="text"] { width: 400%; border-radius: 5px;}
+
+.fechar-modal {
+  position: absolute;
+  top: 10px; right: 10px;
+  background: none; border: none; color: white; font-size: 30px; cursor: pointer;
+}
+
+
+/* Botão de Toggle (Liga/Desliga) */
+.btn-toggle {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+  margin-top: 5px;
+}
+
+.btn-toggle.ligado {
+  background-color: #17ac55;
+  color: white;
+}
+
+.btn-toggle.desligado {
+  background-color: #555;
+  color: #ccc;
+}
+
+/* Destaque na miniatura selecionada */
+.miniatura-fundo.ativa {
+  border: 3px solid #17ac55;
+  box-shadow: 0 0 10px #17ac55;
+}
+
+
+
+
+
+
+
+/* Organização do Modal em Grid */
+.config-grid-opcoes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.config-secao {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.config-secao2 {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.config-secao2 label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #ccc;
+  text-transform: uppercase;
+  width: 200%;
+}
+
+.config-secao2 input{
+  width: 100%;
+  height: 35px;
+  border: 1px solid rgb(129, 129, 129);
+  border-radius: 5px;
+  cursor: pointer;
+  background: transparent;
+}
+
+.config-secao label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #ccc;
+  text-transform: uppercase;
+}
+
+.config-secao input[type="color"] {
+  width: 100%;
+  height: 35px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background: transparent;
+}
+
+.btn-toggle {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-toggle.ligado { background: #17ac55; color: white; }
+.btn-toggle.desligado { background: #444; color: #888; }
+
+/* Para garantir que os inputs de texto não fiquem com fundo branco chato */
+input, textarea {
+  background: transparent !important;
+  border: none;
+}
+
+/* Sombra padrão para as skills cards */
+.skill-card {
+  background: rgba(0,0,0,0.2) !important;
+}
+
+/* Garante que os inputs dentro das 'coisas' herdem a cor do texto sem sombra chata */
+.coisas1 input, .coisas2 input, .coisas3 input, 
+.coisas1 textarea, .coisas2 textarea, .coisas3 textarea {
+  color: inherit;
+  text-shadow: none !important; /* Remove sombra do texto se você achou desnecessário */
+  background: rgba(255, 255, 255, 0.075); /* Um leve fundo para saber onde digitar */
+  border-radius: 4px;
+}
+
+/* Ajuste das Skills para acompanharem o estilo */
+.skill-card {
+  background: rgb(255, 255, 255) !important; /* Cards de skill levemente escurecidos */
+  border: 1px solid;
+  border-color: inherit;
+}
+
+
+.coisas1 label, .coisas2 label, .coisas3 label,
+.coisas1 h3, .coisas2 h3, .coisas3 h3,
+.status-titulo, .skill-tipo-label {
+    color: inherit !important; /* Faz eles herdarem o corTexto do pai */
+}
+
+/* 2. CORREÇÃO DO LOGIN: Devolve o fundo branco para a tela de entrar */
+/* Substitua '.tela-login' pela classe que você usa na sua div de login */
+.tela-login input {
+    background-color: white !important;
+    color: #333 !important;
+    border: 1px solid #ccc !important;
+}
+
+.coisas1 h3, .coisas2 h3, .coisas3 h3, .inv-header h3 {
+    color: inherit !important;
+}
+
+/* Caso o problema seja no container do título especificamente */
+.inv-header h3 {
+    color: inherit !important;
+}
+
+.especializacoes-container select option {
+    background-color: #222; /* Cor de fundo das opções do dropdown */
+    color: white;
+}
+
+.especializacoes-container input, .especializacoes-container select {
+    border-radius: 4px;
+    outline: none;
+}
+
+/* Remove fundos brancos de qualquer input na ficha */
+.painel-inventario input, 
+.painel-inventario textarea,
+.attr-item input {
+    background-color: transparent !important;
+    outline: none;
+}
+
+/* Estiliza o placeholder (o texto de fundo "descreva o item") */
+::placeholder {
+    color: inherit;
+    opacity: 0.5; /* Deixa o placeholder mais discreto */
+}
+
+/* Ajuste do botão + Foto caso ele seja um label */
+.circulo-foto span {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 14px;
+}
