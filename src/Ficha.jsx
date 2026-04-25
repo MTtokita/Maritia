@@ -149,7 +149,6 @@ function Ficha() {
 const handleLogout = async () => {
   try {
     await auth.signOut(); // Em vez de dar reload, apenas deixe o Firebase avisar ao App.jsx que o usuário saiu// Se ainda assim não mudar a tela, use o redirecionamento forçado:
-    localStorage.clear();
     window.location.href = "/"; // Isso força a volta para a raiz do projeto
   } catch (error) {
     console.error("Erro ao sair:", error);
