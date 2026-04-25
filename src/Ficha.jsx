@@ -166,6 +166,40 @@ const estiloTitulo = {
   display: 'block' // Garante que o título fique acima do campo
 };
 
+const resetarLayoutPadrao = async () => {
+  // 1. Valores Padrão (Os que você definiu como favoritos)
+  const padrao = {
+    corBordas: 'rgb(65, 104, 139)',
+    corCentro: 'rgb(255, 255, 255)',
+    corTexto: '#264364',
+    corSombra: '#000000',
+    fundoAtivo: 'https://usagif.com/wp-content/uploads/gifs/water-66.gif',
+    bordasAtivas: false
+  };
+
+  // 2. Atualiza os estados do React (Para mudar na hora na tela)
+  setCorBordas(padrao.corBordas);
+  setCorCentro(padrao.corCentro);
+  setCorTexto(padrao.corTexto);
+  setCorSombra(padrao.corSombra);
+  setFundoAtivo(padrao.fundoAtivo);
+  setBordasAtivas(padrao.bordasAtivas);
+
+  // 3. Salva no Firebase para não voltar ao erro no F5
+  const user = auth.currentUser;
+  if (user) {
+    const userRef = doc(db, "usuarios", user.uid);
+    try {
+      await updateDoc(userRef, padrao);
+      // Opcional: Limpar o localStorage também
+      localStorage.setItem(`layout_${user.uid}`, JSON.stringify(padrao));
+      alert("Layout resetado para o padrão!");
+    } catch (error) {
+      console.error("Erro ao resetar:", error);
+    }
+  }
+};
+
   return (
     <>
 
@@ -386,7 +420,7 @@ const estiloTitulo = {
             <p style={{ color: corTexto, marginBottom: '25px', lineHeight: '1.5' }}> Viajante, tem certeza? <br /><strong>Todos os seus itens serão perdidos!</strong> </p>
             <div style={{ display: 'flex', gap: '15px', justifyContent: 'center' }}>
               <button onClick={() => setModalResetAberto(false)} style={{ padding: '10px 20px', borderRadius: '5px', border: `1px solid ${corTexto}`, background: 'transparent', color: corTexto }}> CANCELAR </button>
-              <button onClick={() => { localStorage.clear(); window.location.reload(); }} style={{ padding: '10px 20px', borderRadius: '5px', border: 'none', backgroundColor: '#ff4d4d', color: 'white', fontWeight: 'bold' }}> CONFIRMAR RESET </button>
+              <button onClick={resetarLayoutPadrao} style={{ padding: '10px 20px', borderRadius: '5px', border: 'none', backgroundColor: '#ff4d4d', color: 'white', fontWeight: 'bold' }}> CONFIRMAR RESET </button>
             </div>
           </div>
         </div>
