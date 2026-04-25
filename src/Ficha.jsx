@@ -186,19 +186,24 @@ const resetarLayoutPadrao = async () => {
   setBordasAtivas(padrao.bordasAtivas);
 
   // 3. Salva no Firebase para não voltar ao erro no F5
-  const user = auth.currentUser;
+ const user = auth.currentUser;
   if (user) {
     const userRef = doc(db, "usuarios", user.uid);
     try {
       await updateDoc(userRef, padrao);
-      // Opcional: Limpar o localStorage também
-      localStorage.setItem(`layout_${user.uid}`, JSON.stringify(padrao));
-      alert("Layout resetado para o padrão!");
+      // 4. Só agora recarrega a página
+      window.location.reload();
     } catch (error) {
-      console.error("Erro ao resetar:", error);
+      console.error("Erro ao resetar no Firebase:", error);
+      // Se der erro no Firebase, recarrega mesmo assim
+      window.location.reload();
     }
+  } else {
+    window.location.reload();
   }
 };
+
+const [itemEdicao, setItemEdicao] = useState(null);
 
   return (
     <>
@@ -329,7 +334,7 @@ const resetarLayoutPadrao = async () => {
                   <div key={index} className="item-inv" style={{ ...estiloCampo, display: 'flex', gap: '10px', alignItems: 'center', background: 'transparent', border: `1px solid ${corBordas}`, padding: '8px', borderRadius: '8px', marginBottom: '8px' }}>
                     <input placeholder="Nome do item" value={item.nome} style={{ background: 'transparent', color: corTexto, border: 'none', flex: 2, outline: 'none' }} onChange={(e) => { const novoInv = [...personagem.inventario]; novoInv[index].nome = e.target.value; setPersonagem({ ...personagem, inventario: novoInv }); }} />
                     <input type="number" className="input-qtd" value={item.qtd} style={{ background: 'transparent', color: corTexto, border: `1px solid ${corBordas}`, width: '50px', textAlign: 'center', borderRadius: '4px', outline: 'none', height: '30px' }} onChange={(e) => { const novoInv = [...personagem.inventario]; novoInv[index].qtd = e.target.value; setPersonagem({ ...personagem, inventario: novoInv }); }} />
-                    <textarea placeholder="Descrição..." value={item.desc} style={{ background: 'transparent', color: corTexto, border: 'none', flex: 3, resize: 'none', outline: 'none', height: '30px' }} onChange={(e) => { const novoInv = [...personagem.inventario]; novoInv[index].desc = e.target.value; setPersonagem({ ...personagem, inventario: novoInv }); }} />
+                    <button onClick={() => setItemEdicao({ ...item, index })} className="btn-descricao">DESCRIÇÃO</button>
                     <button className="btn-del" style={{ background: 'transparent', color: corTexto, border: 'solid', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => setPersonagem({ ...personagem, inventario: personagem.inventario.filter((_, i) => i !== index) })}>×</button>
                   </div>
                 ))}
@@ -424,7 +429,47 @@ const resetarLayoutPadrao = async () => {
             </div>
           </div>
         </div>
+
       )}
+
+{itemEdicao && (
+  <div className="modal-config"> 
+    <div className="modal-conteudo" style={estiloPainel}>
+      {/* Botão Fechar */}
+      <button 
+        className="btn-fechar" 
+        onClick={() => setItemEdicao(null)}
+        style={{ color: corTexto }}
+      >
+        X
+      </button>
+
+      {/* Nome do Item Centralizado */}
+      <h2 style={{ ...estiloTitulo, textAlign: 'center', fontSize: '20px' }}>
+        {itemEdicao.nome}
+      </h2>
+
+      {/* Área de Texto (Igual ao Skills) */}
+      <div className="config-secao2">
+        <label style={estiloTitulo}>Descrição do Item</label>
+        <textarea
+          style={{ ...estiloCampo, width: '100%', height: '200px', padding: '10px' }}
+          value={itemEdicao.desc}
+          onChange={(e) => {
+            const novaDesc = e.target.value;
+            setItemEdicao(prev => ({ ...prev, desc: novaDesc }));
+            
+            // Atualiza na ficha oficial
+            const novoInventario = [...personagem.inventario];
+            novoInventario[itemEdicao.index].desc = novaDesc;
+            setPersonagem(prev => ({ ...prev, inventario: novoInventario }));
+          }}
+        />
+      </div>
+    </div>
+  </div>
+)}
+
     </>
   );
 }

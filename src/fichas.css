@@ -889,3 +889,31 @@ input, textarea {
         overflow-y: auto !important;
     }
 }
+
+.btn-descricao {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid #ccc;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+/* Garante que o modal de descrição use o scroll se o texto for longo */
+.modal-conteudo {
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.btn-fechar {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
