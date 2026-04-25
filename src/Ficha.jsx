@@ -6,28 +6,50 @@ import { auth, db } from './firebaseconf';
 import { doc, setDoc, getDoc } from "firebase/firestore";
 
 function Ficha() {
-  // --- Trava de segurança para não salvar dados vazios por cima do banco ---
+  // --- ADICIONADO: Trava de segurança ---
   const [carregado, setCarregado] = useState(false);
 
-  const [personagem, setPersonagem] = useState({
+  const [personagem, setPersonagem] = useState(() => {
+  const salvo = localStorage.getItem('dadosPersonagem');
+  return salvo ? JSON.parse(salvo) : {
     foto: null, nome: 'Herói Sem Nome', raca: 'Humano', classes: ['Guerreiro'],
     funcao: 'Tanque', level: 1, xpAtual: 0, xpProximo: 1000, HP: 10, estamina: 30, mana: 15,
     statusAdicionais: [{ nome: 'Armadura', valor: 0 }],
     atributos: { forca: 10, agilidade: 10, destreza: 10, sabedoria: 10, instintoSB: 10, carisma: 10 },
     inventario: [{ nome: ' item ', qtd: 1, desc: 'descreva o item' }],
     skills: [], acertoMinimo: 0, especializacoes: [{ arma: 'Espada', nivel: 0 }],
+  }
   });
+
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (user && carregado) {
+      localStorage.setItem(`dadosPersonagem_${user.uid}`, JSON.stringify(personagem));
+      salvarFicha();
+    }
+  }, [personagem]);
+
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (user && carregado) {
+      localStorage.setItem(`configLayout_${user.uid}`, JSON.stringify({
+        corTexto, corBordas, corCentro, fundoAtivo, corSombra, bordasAtivas
+      }));
+      salvarFicha();
+    }
+  }, [corTexto, corBordas, corCentro, fundoAtivo, corSombra, bordasAtivas]);
 
   const [bordasAtivas, setBordasAtivas] = useState(false);
   const [configAberto, setConfigAberto] = useState(false);
-  const [corBordas, setCorBordas] = useState('rgb(65, 104, 139)');
-  const [corCentro, setCorCentro] = useState('rgb(255, 255, 255)');
-  const [corTexto, setCorTexto] = useState('#264364');
-  const [corSombra, setCorSombra] = useState('#000000');
-  const [fundoAtivo, setFundoAtivo] = useState('https://usagif.com/wp-content/uploads/gifs/water-66.gif');
+  const [corBordas, setCorBordas] = useState(localStorage.getItem('corBordas') ||'rgb(65, 104, 139)');
+  const [corCentro, setCorCentro] = useState(localStorage.getItem('corCentro') || 'rgb(255, 255, 255)');
+  const [corTexto, setCorTexto] = useState(localStorage.getItem('corTexto') || '#264364');
+  const [corSombra, setCorSombra] = useState(localStorage.getItem('corSombra') ||'#000000');
+  const [fundoAtivo, setFundoAtivo] = useState(localStorage.getItem('fundoAtivo') ||'https://usagif.com/wp-content/uploads/gifs/water-66.gif');
 
   const salvarFicha = async () => {
-    if (!carregado) return; // Bloqueia salvamento durante o carregamento inicial
+    // --- ADICIONADO: Bloqueia o salvamento se ainda estiver carregando ---
+    if (!carregado) return;
 
     const user = auth.currentUser;
     if (user) {
@@ -43,105 +65,105 @@ function Ficha() {
     }
   };
 
-  // --- Efeitos para salvar no LocalStorage específico do Usuário ---
   useEffect(() => {
-    const user = auth.currentUser;
-    if (user && carregado) {
-      localStorage.setItem(`dadosPersonagem_${user.uid}`, JSON.stringify(personagem));
-      salvarFicha();
-    }
+    localStorage.setItem('dadosPersonagem', JSON.stringify(personagem));
+    salvarFicha();
   }, [personagem]);
 
-  useEffect(() => {
-    const user = auth.currentUser;
-    if (user && carregado) {
-      localStorage.setItem(`bordasAtivas_${user.uid}`, bordasAtivas);
-      salvarFicha();
-    }
-  }, [bordasAtivas]);
+  useEffect(() => {localStorage.setItem('bordasAtivas', bordasAtivas); salvarFicha();}, [bordasAtivas]);
+  useEffect(() => { localStorage.setItem('corTexto', corTexto); salvarFicha(); }, [corTexto]);
+  useEffect(() => { localStorage.setItem('corBordas', corBordas); salvarFicha(); }, [corBordas]);
+  useEffect(() => { localStorage.setItem('corCentro', corCentro); salvarFicha(); }, [corCentro]);
+  useEffect(() => { localStorage.setItem('fundoAtivo', fundoAtivo); salvarFicha(); }, [fundoAtivo]);
+  useEffect(() => { localStorage.setItem('corSombra', corSombra); salvarFicha(); }, [corSombra]);
 
-  useEffect(() => {
-    const user = auth.currentUser;
-    if (user && carregado) {
-      localStorage.setItem(`corTexto_${user.uid}`, corTexto);
-      salvarFicha();
-    }
-  }, [corTexto]);
+  const estiloPainel = { backgroundColor: corCentro, borderColor: bordasAtivas ? corBordas : 'transparent', borderStyle: 'solid', borderWidth: '2px', color: corTexto, boxShadow: `0px 0px 15px ${corSombra}`, transition: '0.3s' };
 
-  useEffect(() => {
-    const user = auth.currentUser;
-    if (user && carregado) {
-      localStorage.setItem(`corBordas_${user.uid}`, corBordas);
-      salvarFicha();
+  const handleFoto = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => { setPersonagem(prev => ({ ...prev, foto: reader.result })); };
+      reader.readAsDataURL(file);
     }
-  }, [corBordas]);
+  };
 
-  useEffect(() => {
-    const user = auth.currentUser;
-    if (user && carregado) {
-      localStorage.setItem(`corCentro_${user.uid}`, corCentro);
-      salvarFicha();
-    }
-  }, [corCentro]);
+  const adicionarStatus = () => setPersonagem(prev => ({ ...prev, statusAdicionais: [...prev.statusAdicionais, { nome: 'Novo Status', valor: 0 }] }));
+  const mudarStatusAdicional = (index, campo, valor) => {
+    const novosStatus = [...personagem.statusAdicionais];
+    novosStatus[index][campo] = valor;
+    setPersonagem(prev => ({ ...prev, statusAdicionais: novosStatus }));
+  };
+  const removerStatusAdicional = (index) => setPersonagem(prev => ({ ...prev, statusAdicionais: personagem.statusAdicionais.filter((_, i) => i !== index) }));
+  const adicionarClasse = () => setPersonagem(prev => ({ ...prev, classes: [...prev.classes, 'Nova Classe'] }));
+  const mudarClasse = (index, valor) => {
+    const novasClasses = [...personagem.classes]; novasClasses[index] = valor;
+    setPersonagem(prev => ({ ...prev, classes: novasClasses }));
+  };
+  const removerClasse = (index) => setPersonagem(prev => ({ ...prev, classes: personagem.classes.filter((_, i) => i !== index) }));
+  const handleChange = (e) => setPersonagem(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  const adicionarSkill = (tipo) => setPersonagem(prev => ({ ...prev, skills: [...prev.skills, { id: Date.now(), tipo, nome: 'Nova Skill', descricao: '' }] }));
+  const atualizarSkill = (id, campo, valor) => setPersonagem(prev => ({ ...prev, skills: personagem.skills.map(s => s.id === id ? { ...s, [campo]: valor } : s) }));
+  const removerSkill = (id) => setPersonagem(prev => ({ ...prev, skills: personagem.skills.filter(s => s.id !== id) }));
 
-  useEffect(() => {
-    const user = auth.currentUser;
-    if (user && carregado) {
-      localStorage.setItem(`fundoAtivo_${user.uid}`, fundoAtivo);
-      salvarFicha();
-    }
-  }, [fundoAtivo]);
+  const backgroundsPredefinidos = [
+    'https://usagif.com/wp-content/uploads/gifs/water-66.gif',
+    'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdnh2cWI5M2hjc2phczQ0cXRyN3UwYWQ2YTFrcTRqdXkyYXlra200byZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7buijTqhjxjbEqjK/giphy.gif',
+    'https://i.gifer.com/Vs69.gif', 'https://i.gifer.com/YWuH.gif', 'https://i.pinimg.com/originals/36/11/d3/3611d3ced99c00a150cdc4d3bcfa1fa9.gif',
+    'https://66.media.tumblr.com/7d7916290ee905bba571911f6f168680/7450bd2ea56fb971-5a/s1280x1920/a51b66e5b81af9b2ccb3712c4ae929c23d7b0e19.gif',
+    'https://i1.wp.com/68.media.tumblr.com/721ccdabadc28bb5c16763664eece09c/tumblr_oo16p27mG71w4oiizo1_540.gif',
+    'https://gifdb.com/images/high/jun-naruse-bus-anime-loop-t0urovmtc02uz0ga.gif',
+  ];
 
-  useEffect(() => {
-    const user = auth.currentUser;
-    if (user && carregado) {
-      localStorage.setItem(`corSombra_${user.uid}`, corSombra);
-      salvarFicha();
-    }
-  }, [corSombra]);
+  const [modalResetAberto, setModalResetAberto] = useState(false);
 
-  // --- Carregamento Inicial (Prioridade: Banco de Dados > LocalStorage > Padrão) ---
+  const estiloCampo = {
+    backgroundColor: 'rgba(0, 0, 0, 0)', border: 'none', borderRadius: '5px', color: corTexto,
+    boxShadow: `inset 900px 0px 0px rgba(0,0,0,0.12), 0px 2px 5px ${corSombra}44`, outline: 'none', transition: '0.3s',
+  };
+
   useEffect(() => {
     const carregarDadosIndividuais = async () => {
       const user = auth.currentUser;
       if (user) {
-        // 1. Tenta carregar do LocalStorage do usuário para rapidez
-        const pSalvo = localStorage.getItem(`dadosPersonagem_${user.uid}`);
-        if (pSalvo) setPersonagem(JSON.parse(pSalvo));
-        
-        const fSalvo = localStorage.getItem(`fundoAtivo_${user.uid}`);
-        if (fSalvo) setFundoAtivo(fSalvo);
-
-        // 2. Busca a "Verdade Absoluta" no Firebase
         const userRef = doc(db, "usuarios", user.uid);
         const docSnap = await getDoc(userRef);
-        
         if (docSnap.exists()) {
-          const d = docSnap.data();
-          if (d.ficha) setPersonagem(d.ficha);
-          if (d.corTexto) setCorTexto(d.corTexto);
-          if (d.corBordas) setCorBordas(d.corBordas);
-          if (d.corCentro) setCorCentro(d.corCentro);
-          if (d.fundoAtivo) setFundoAtivo(d.fundoAtivo);
-          if (d.corSombra) setCorSombra(d.corSombra);
-          if (d.bordasAtivas !== undefined) setBordasAtivas(d.bordasAtivas);
+          const dadosRecuperados = docSnap.data();
+          if (dadosRecuperados.ficha) setPersonagem(dadosRecuperados.ficha);
+          if (dadosRecuperados.corTexto) setCorTexto(dadosRecuperados.corTexto);
+          if (dadosRecuperados.corBordas) setCorBordas(dadosRecuperados.corBordas);
+          if (dadosRecuperados.corCentro) setCorCentro(dadosRecuperados.corCentro);
+          if (dadosRecuperados.fundoAtivo) setFundoAtivo(dadosRecuperados.fundoAtivo);
+          if (dadosRecuperados.corSombra) setCorSombra(dadosRecuperados.corSombra);
+          if (dadosRecuperados.bordasAtivas !== undefined) setBordasAtivas(dadosRecuperados.bordasAtivas);
+          console.log("Memórias de Maritia recuperadas!");
         }
       }
-      setCarregado(true); // Autoriza o sistema a começar a salvar
+      // --- ADICIONADO: Autoriza o salvamento agora que o load acabou ---
+      setCarregado(true);
     };
     carregarDadosIndividuais();
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      await auth.signOut();
-      localStorage.clear(); // Limpa o cache para evitar rastros no navegador
-      window.location.href = "/"; 
-    } catch (error) {
-      console.error("Erro ao sair:", error);
-    }
-  };
-  
+const handleLogout = async () => {
+  try {
+    await auth.signOut(); // Em vez de dar reload, apenas deixe o Firebase avisar ao App.jsx que o usuário saiu// Se ainda assim não mudar a tela, use o redirecionamento forçado:
+    localStorage.clear();
+    window.location.href = "/"; // Isso força a volta para a raiz do projeto
+  } catch (error) {
+    console.error("Erro ao sair:", error);
+  }
+};
+
+const estiloTitulo = {
+  color: corTexto,
+  fontWeight: 'bold',
+  textShadow: `1px 1px 3px rgba(0, 0, 0, 0.3)`, // Sombra leve e suave
+  marginBottom: '5px',
+  display: 'block' // Garante que o título fique acima do campo
+};
+
   return (
     <>
 
