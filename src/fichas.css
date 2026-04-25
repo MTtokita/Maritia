@@ -14,14 +14,11 @@ body {
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  background-color: rgb(53, 53, 53); 
   min-height: 100vh;    
-  width: 100%;
-  height: auto;
-  overflow-x: hidden;
- max-width: 1000px;
- margin: 20px auto;
-  /* Removi o Flex daqui para não conflitar com o Grid da @media */
+  width: 100%; /* FUNDO SEMPRE 100% */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centraliza a ficha dentro dele */
 }
 
 @media (orientation: landscape) and (max-height: 500px) {
@@ -186,10 +183,11 @@ object-fit: cover;
 
   .are1 {
     width: 100% !important; /* Ocupa a largura total */
-    margin: 0 !important;
     padding: 10px; /* Padding menor para ganhar espaço interno */
     box-sizing: border-box; /* Garante que o padding não aumente a largura */
     border-radius: 0; /* Remove bordas arredondadas que comem espaço no celular */
+    max-width: 1000px;    /* NO PC, trava em 1000px para não esticar */
+  margin: 20px auto;    /* Respiro em cima e centralizado */
   }
 
   /* Ajuste dos campos de XP que estão quebrando a horizontal */
