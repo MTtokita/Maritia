@@ -2,11 +2,13 @@
   box-sizing: border-box;
 }
 
-body {
-  background-image: url('https://usagif.com/wp-content/uploads/gifs/water-66.gif');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed; /* O fundo não rola junto com a ficha */
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  /* Resolve o problema de "comer" a tela no mobile deitado */
+  overflow-x: hidden; 
 }
 
 .counter2 {
@@ -14,14 +16,14 @@ body {
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  min-height: 100vh;    
-  width: 100%; /* FUNDO SEMPRE 100% */
+  min-height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centraliza a ficha dentro dele */
+  align-items: center;
   height: auto;
-  overflow-y: auto;
-  overflow-x: hidden;
+  /* Garante que o scroll vertical funcione sempre */
+  overflow-y: visible; 
 }
 
 @media (orientation: landscape) and (max-height: 500px) {
@@ -97,11 +99,12 @@ body {
   /* Se quiser que o fundo acompanhe o crescimento sem "quebrar" */
   overflow: hidden; 
 }
-.are2 img{
-width: 100%;
-object-fit: cover; 
-max-width: 1000px;    /* NO PC, trava em 1000px para não esticar */
-  margin: 20px auto;  
+.are2 img {
+  width: 100%;
+  height: 100vh; /* No PC, ela acompanha a altura da janela */
+  position: sticky; /* Efeito legal: a imagem lateral fica parada enquanto você rola a ficha */
+  top: 0;
+  object-fit: cover;
 }
 
 .areTOP {
@@ -164,15 +167,36 @@ max-width: 1000px;    /* NO PC, trava em 1000px para não esticar */
 
 /* Layout para Desktop */
 @media (min-width: 768px) {
-  .counter2 {
+ .counter2 {
     display: grid;
-    grid-template-columns: 1fr 3fr 1fr; 
-    gap: 20px; 
-    padding: 0px;
+    /* Colunas laterais fixas ou flexíveis, Centro trava em 1000px */
+    grid-template-columns: 1fr minmax(auto, 1000px) 1fr;
+    gap: 0; /* Remove espaço entre as imagens e a ficha */
+    align-items: start;
   }
 
   .coisas2 {
     transform: translateY(0px);
+  }
+
+.are2 {
+    width: 100%;
+    height: 100%; /* Faz a barra lateral esticar até o fim da ficha */
+    display: block;
+    margin: 0; /* Remove o margin auto que causava o desalinhamento */
+    padding: 0;
+  }
+
+  .are2 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Faz a imagem preencher a grid sem deformar */
+    margin: 0;
+  }
+
+  .are1 {
+    width: 100%; /* Ocupa exatamente a coluna central de 1000px */
+    margin: 20px 0; /* Respiro apenas em cima e baixo */
   }
 
 }
@@ -181,18 +205,16 @@ max-width: 1000px;    /* NO PC, trava em 1000px para não esticar */
 @media (max-width: 767px) {
   /* Remove as colunas laterais e foca no centro */
   .counter2 {
-    display: block; /* No mobile, block é mais seguro que grid para evitar overflow */
-    width: 100vw;
-    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
   }
 
   .are1 {
-    width: 100% !important; /* Ocupa a largura total */
-    padding: 10px; /* Padding menor para ganhar espaço interno */
-    box-sizing: border-box; /* Garante que o padding não aumente a largura */
-    border-radius: 0; /* Remove bordas arredondadas que comem espaço no celular */
-    max-width: 1000px;    /* NO PC, trava em 1000px para não esticar */
-  margin: 20px auto;    /* Respiro em cima e centralizado */
+    width: 100% !important;
+    margin: 0;
+    border-radius: 0; /* Encosta no vidro do celular */
+    border-left: none;
+    border-right: none;
   }
 
   /* Ajuste dos campos de XP que estão quebrando a horizontal */
@@ -213,6 +235,17 @@ max-width: 1000px;    /* NO PC, trava em 1000px para não esticar */
   .counter2 .are2:last-of-type {
     display: block !important;
     width: 100%;
+  }
+
+.counter2 .are2 {
+    display: none !important;
+  }
+
+@media (orientation: landscape) {
+    .counter2 {
+      height: auto;
+      overflow-y: auto;
+    }
   }
 
 }
