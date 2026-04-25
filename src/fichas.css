@@ -724,7 +724,7 @@ background-repeat: no-repeat;
   display: block;
   flex-direction: column;
   gap: 5px;
-  width: 125%;
+  width: 150%;
   box-sizing: border-box;
 }
 
@@ -733,12 +733,12 @@ background-repeat: no-repeat;
   font-weight: bold;
   color: #ccc;
   text-transform: uppercase;
- width: 125%;
+ width: 150%;
 }
 
 .config-secao2 input{
-  width: 125%;
-  max-width: 125%;
+  width: 150%;
+  max-width: 150%;
   height: 36px;
   border: 1px solid rgb(129, 129, 129);
   border-radius: 5px;
