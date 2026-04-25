@@ -1,3 +1,14 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-image: url('https://usagif.com/wp-content/uploads/gifs/water-66.gif');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* O fundo não rola junto com a ficha */
+}
+
 .counter2 {
   background-image: url('https://usagif.com/wp-content/uploads/gifs/water-66.gif');
   background-size: cover;
@@ -7,7 +18,22 @@
   min-height: 100vh;    
   width: 100%;
   height: auto;
+  overflow-x: hidden;
+  max-width: 1200px;
   /* Removi o Flex daqui para não conflitar com o Grid da @media */
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .modal-config {
+    max-height: 90vh; /* Evita que o modal de cores suma no topo */
+    overflow-y: auto;
+  }
+
+  /* Se você usa uma grid de 2 colunas, talvez seja melhor 
+     manter 1 coluna só se a altura for muito pequena */
+  .config-grid-opcoes {
+    grid-template-columns: 1fr; 
+  }
 }
 
 .are1 {

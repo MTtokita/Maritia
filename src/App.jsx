@@ -106,7 +106,7 @@ function App() {
       <div className='counter'>
         <div className="auth-container">
           <div className='are0'>
-            <img src={lgmaritia} alt="Maritia" style={{ width: '650px' }} />
+            <img src={lgmaritia} alt="Maritia" style={{ width: '700px' }} />
           </div>
 
           <div className="auth-box">

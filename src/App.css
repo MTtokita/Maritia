@@ -65,7 +65,7 @@ html, body, #root {
 
 .are0 {
   /* Removemos a imagem de fundo daqui para ela não brigar com o preto */
-  background-color: rgba(0, 0, 0, 0.080) !important; 
+  background-color: rgba(0, 0, 0, 0) !important; 
   
   display: flex;
   align-items: center;
