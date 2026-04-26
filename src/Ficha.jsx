@@ -334,7 +334,7 @@ const [itemEdicao, setItemEdicao] = useState(null);
                   <div key={index} className="item-inv" style={{ ...estiloCampo, display: 'flex', gap: '10px', alignItems: 'center', background: 'transparent', border: `1px solid ${corBordas}`, padding: '8px', borderRadius: '8px', marginBottom: '8px' }}>
                     <input placeholder="Nome do item" value={item.nome} style={{ background: 'transparent', color: corTexto, border: 'none', flex: 2, outline: 'none' }} onChange={(e) => { const novoInv = [...personagem.inventario]; novoInv[index].nome = e.target.value; setPersonagem({ ...personagem, inventario: novoInv }); }} />
                     <input type="number" className="input-qtd" value={item.qtd} style={{ background: 'transparent', color: corTexto, border: `1px solid ${corBordas}`, width: '50px', textAlign: 'center', borderRadius: '4px', outline: 'none', height: '30px' }} onChange={(e) => { const novoInv = [...personagem.inventario]; novoInv[index].qtd = e.target.value; setPersonagem({ ...personagem, inventario: novoInv }); }} />
-                    <button onClick={() => setItemEdicao({ ...item, index })} className="btn-descricao">DESCRIÇÃO</button>
+                    <button onClick={() => setItemEdicao ({ ...item, index })} className="btn-fechar-descricao">DESCRIÇÃO</button>
                     <button className="btn-del" style={{ background: 'transparent', color: corTexto, border: 'solid', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => setPersonagem({ ...personagem, inventario: personagem.inventario.filter((_, i) => i !== index) })}>×</button>
                   </div>
                 ))}
@@ -433,39 +433,70 @@ const [itemEdicao, setItemEdicao] = useState(null);
       )}
 
 {itemEdicao && (
-  <div className="modal-config"> 
-    <div className="modal-conteudo" style={estiloPainel}>
+  <div className="modal-descricao-overlay" onClick={() => setItemEdicao(null)}> 
+    <div 
+      className="modal-descricao-container" 
+      style={estiloPainel} 
+      onClick={(e) => e.stopPropagation()} // Impede o fechamento ao clicar dentro do modal
+    >
       {/* Botão Fechar */}
       <button 
         className="btn-fechar" 
         onClick={() => setItemEdicao(null)}
-        style={{ color: corTexto }}
+        style={{ color: corTexto, position: 'absolute', top: '10px', right: '15px', background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer' }}
       >
         X
       </button>
 
       {/* Nome do Item Centralizado */}
-      <h2 style={{ ...estiloTitulo, textAlign: 'center', fontSize: '20px' }}>
+      <h2 style={{ ...estiloTitulo, textAlign: 'center', fontSize: '20px', marginBottom: '20px' }}>
         {itemEdicao.nome}
       </h2>
 
-      {/* Área de Texto (Igual ao Skills) */}
-      <div className="config-secao2">
-        <label style={estiloTitulo}>Descrição do Item</label>
+      {/* Área de Texto */}
+      <div className="config-secao-desc" style={{ width: '100%' }}>
+        <label style={{ ...estiloTitulo, display: 'block', marginBottom: '10px' }}>Descrição do Item</label>
         <textarea
-          style={{ ...estiloCampo, width: '100%', height: '200px', padding: '10px' }}
+          style={{ 
+            ...estiloCampo, 
+            width: '100%', 
+            height: '250px', 
+            padding: '12px',
+            resize: 'none',
+            backgroundColor: 'rgba(255,255,255,0.05)',
+            color: corTexto,
+            borderRadius: '8px',
+            border: `1px solid ${corBordas}`
+          }}
           value={itemEdicao.desc}
           onChange={(e) => {
             const novaDesc = e.target.value;
             setItemEdicao(prev => ({ ...prev, desc: novaDesc }));
             
-            // Atualiza na ficha oficial
             const novoInventario = [...personagem.inventario];
             novoInventario[itemEdicao.index].desc = novaDesc;
             setPersonagem(prev => ({ ...prev, inventario: novoInventario }));
           }}
         />
       </div>
+      
+      <button 
+        onClick={() => setItemEdicao(null)}
+        
+        style={{ 
+          ...estiloCampo,
+          marginTop: '20px', 
+          width: '100%', 
+          padding: '10px', 
+          backgroundColor: corBordas, 
+          color: '#fff', 
+          border: 'none', 
+          borderRadius: '5px',
+          cursor: 'pointer'
+        }}
+      >
+        SALVAR E FECHAR
+      </button>
     </div>
   </div>
 )}

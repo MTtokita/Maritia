@@ -451,7 +451,6 @@ background-repeat: no-repeat;
   border-radius: 8px;
   border: 2px solid;
   border-color: #2b2b2b;
-  height: 45px;
 }
 
 .btn-del {
@@ -509,7 +508,7 @@ background-repeat: no-repeat;
 }
 
 .inv-header .btn-add-status{
-  width:40px;
+  width:60px;
 }
 
 
@@ -901,19 +900,54 @@ input, textarea {
 }
 
 /* Garante que o modal de descrição use o scroll se o texto for longo */
-.modal-conteudo {
-  max-height: 80vh;
-  overflow-y: auto;
-  position: relative;
+.modal-descricao-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.85); /* Fundo bem escuro para focar no texto */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100000; /* Um nível acima de tudo */
 }
 
-.btn-fechar {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  background: none;
+.modal-descricao-container {
+  background-color: #fff;
+  color: #333;
+  width: 90%;
+  max-width: 450px;
+  padding: 25px;
+  border-radius: 12px;
+  position: relative;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+  border: 3px solid #41688b; /* Cor do seu tema para combinar */
+}
+
+.modal-descricao-container h3 {
+  margin-top: 0;
+  color: #41688b;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+
+.btn-fechar-descricao {
+  width: 20%;
+  padding: 8px;
+  background-color: #41688b;
+  color: white;
   border: none;
-  font-size: 20px;
-  font-weight: bold;
+  border-radius: 6px;
   cursor: pointer;
+  font-weight: bold;
+}
+
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  .modal-descricao-container {
+    padding: 15px;
+  }
+  .modal-descricao-container textarea {
+    height: 120px !important;
+  }
 }
