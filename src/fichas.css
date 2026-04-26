@@ -167,6 +167,15 @@ object-fit: cover;
     width: 100%;
   }
 
+.lista-pericias .item-inv {
+  display: flex;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px;
+  border-radius: 8px;
+  align-items: center;
+  width: 500px;
+}
+
 }
 
 
@@ -887,6 +896,15 @@ input, textarea {
         height: auto !important;
         overflow-y: auto !important;
     }
+
+    .lista-pericias .item-inv {
+  display: flex;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px;
+  border-radius: 8px;
+  align-items: center;
+  width: 800px;
+}
 }
 
 .btn-descricao {
@@ -998,33 +1016,4 @@ input, textarea {
 .lista-pericias select option {
   background-color: #1a1a1a; /* Cor de fundo das opções */
   color: white;
-}
-
-@media screen and (max-width: 480px) {
-  .pericia-card {
-    flex-direction: column; /* Transforma em duas linhas */
-    align-items: stretch;
-    gap: 8px;
-  }
-
-  .pericia-controles {
-    justify-content: space-between;
-  }
-
-  .input-pts {
-    flex: 1; /* O campo de pontos cresce para ocupar espaço */
-  }
-}
-
-/* --- MOBILE HORIZONTAL (Landscape) --- */
-/* Forçamos a volta para uma linha única porque há espaço lateral */
-@media screen and (max-width: 932px) and (orientation: landscape) {
-  .pericia-card {
-    flex-direction: row !important;
-    gap: 15px;
-  }
-
-  .pericia-nome-area {
-    flex: 4;
-  }
 }
