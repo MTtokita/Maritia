@@ -14,8 +14,12 @@ function Ficha() {
     funcao: 'Tanque', level: 1, xpAtual: 0, xpProximo: 1000, HP: 10, estamina: 30, mana: 15,
     statusAdicionais: [{ nome: 'Armadura', valor: 0 }],
     atributos: { forca: 10, agilidade: 10, destreza: 10, sabedoria: 10, instintoSB: 10, carisma: 10 },
+    
     inventario: [{ nome: ' item ', qtd: 1, desc: 'descreva o item' }],
-    skills: [], acertoMinimo: 0, especializacoes: [{ arma: 'Espada', nivel: 0 }],
+    skills: [], 
+    acertoMinimo: 0, 
+    especializacoes: [{ arma: 'Espada', nivel: 0 }],
+    perícias: [{tipo: 'Nenhuma', espec: 0 }],
   });
 
   const [bordasAtivas, setBordasAtivas] = useState(false);
@@ -275,7 +279,7 @@ const [itemEdicao, setItemEdicao] = useState(null);
                 </div>
               </div>
               <div className="campo-input" style={{ marginTop: '10px' }}><span style={estiloTitulo}>Dado de Acerto Mínimo</span><input type="number" value={personagem.acertoMinimo} className="input-curto" style={{ ...estiloCampo, color: corTexto, textAlign: 'center', fontSize: '15px', fontWeight: 'bold', width: '60px', borderColor: corBordas, borderStyle: 'solid', borderWidth: '1px' }} onChange={(e) => setPersonagem({ ...personagem, acertoMinimo: e.target.value })} /></div>
-              <hr style={{ border: `0.5px solid ${corBordas}`, opacity: 0.2, margin: '15px 0' }} />
+              <hr style={{ border: `0.5px solid ${corBordas}`, opacity: 0.5, margin: '15px 0' }} />
               <div className="especializacoes-container">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}><span style={estiloTitulo}>Especialização de Armas</span><button onClick={() => setPersonagem({ ...personagem, especializacoes: [...personagem.especializacoes, { arma: 'Espada', nivel: 0, custom: false }] })} className="btn-add"> + </button></div>
                 {personagem.especializacoes.map((esp, index) => (
@@ -314,6 +318,129 @@ const [itemEdicao, setItemEdicao] = useState(null);
             </div>
           </div>
 
+<div className="coisas2" style={estiloPainel}>
+  <div className="inv-header">
+    <h3 style={estiloTitulo}>Perícias</h3>
+    <button 
+      className="btn-add-status" 
+      onClick={() => {
+        const novasPericias = [...(personagem.pericias || [])];
+        // Começa como 'Selecione' para forçar o usuário a escolher
+        novasPericias.push({ nome: '', pontos: 0, modoEdicao: false });
+        setPersonagem({ ...personagem, pericias: novasPericias });
+      }}
+    >
+      +
+    </button>
+  </div>
+
+  <div className="lista-pericias">
+    {(personagem.pericias || []).map((pericia, index) => (
+      <div key={index} className="item-inv" style={{ alignItems: 'center', gap: '10px' }}>
+        
+        {/* Lógica Troca: Select ou Input de Texto */}
+        {!pericia.modoEdicao ? (
+          <select
+            style={{ ...estiloCampo, flex: 3, padding: '5px' }}
+            value={pericia.nome}
+            onChange={(e) => {
+              const valor = e.target.value;
+              const novas = [...personagem.pericias];
+              if (valor === "Outros") {
+                novas[index].modoEdicao = true;
+                novas[index].nome = ""; // Limpa para o usuário digitar
+              } else {
+                novas[index].nome = valor;
+              }
+              setPersonagem({ ...personagem, pericias: novas });
+            }}
+          >
+            <option value="" disabled>Selecione...</option>
+            <option value="Acrobacia">Acrobacia (agilidade)</option>
+            <option value="Atletismo">Atletismo (fortitude)</option>
+            <option value="inteligencia">inteligencia (sabedoria)</option>
+            <option value="Percepção">Percepção(instinto)</option>
+            <option value="Medicina">Medicina (sabedoria)</option>
+            <option value="Sobrevivência">Sobrevivência (sabedoria) </option>
+            <option value="arte">arte (sabedoria)</option>
+            <option value="enganação">enganação (carisma)</option>
+            <option value="culinaria">culinaria (sabedoria)</option>
+            <option value="dança">dança (agilidade)</option>
+            <option value="pontaria">pontaria (ação:mira)</option>
+            <option value="forjar">forjar (sabedoria)</option>
+            <option value="religião">religião (sabedoria)</option>
+            <option value="diplomacia">diplomacia (sabedoria)</option>
+            <option value="historia">historia (sabedoria)</option>
+            <option value="geografia">geografia (sabedoria)</option>
+            <option value="biologia">biologia (sabedoria)</option>
+            <option value="intuição">intuição (sabedoria)</option>
+            <option value="natação">natação (agilidade)</option>
+            <option value="domar">domar (carisma)</option>
+            <option value="resistir">resistir (ação,resistir a condição)</option>
+            <option value="intimidação">intimidação (carisma)</option>
+            <option value="esculpir">esculpir (sabedoria)</option>
+            <option value="conjuração">conjuração (sabedoria)</option>
+            <option value="alquimia">alquimia (sabedoria)</option>
+            <option value="atuação">atuação (carisma)</option>
+            <option value="furtividade">furtividade (destreza)</option>
+            <option value="furtar">furtar (destreza)</option>
+            <option value="psicologico">psicologico (sabedoria)</option>
+            <option value="persuação">persuação (carisma)</option>
+            <option value="arrombamento">arrombamento (destreza)</option>
+            <option value="reflexo">reflexo (agilidade)</option>
+            <option value="Outros">Outros (Digitar...)</option>
+          </select>
+        ) : (
+          <input
+            type="text"
+            autoFocus
+            placeholder="Nome da Perícia"
+            style={{ ...estiloCampo, flex: 3 }}
+            value={pericia.nome}
+            onChange={(e) => {
+              const novas = [...personagem.pericias];
+              novas[index].nome = e.target.value;
+              setPersonagem({ ...personagem, pericias: novas });
+            }}
+            onBlur={() => {
+              // Se o usuário deixar vazio, volta para o select
+              if (pericia.nome === "") {
+                const novas = [...personagem.pericias];
+                novas[index].modoEdicao = false;
+                setPersonagem({ ...personagem, pericias: novas });
+              }
+            }}
+          />
+        )}
+
+        {/* Quantidade de Pontos */}
+        <input
+          type="number"
+          placeholder="Pts"
+          style={{ ...estiloCampo, width: '60px', height: '30px', textAlign: 'center' }}
+          value={pericia.pontos}
+          onChange={(e) => {
+            const novas = [...personagem.pericias];
+            novas[index].pontos = parseInt(e.target.value) || 0;
+            setPersonagem({ ...personagem, pericias: novas });
+          }}
+        />
+
+        {/* Botão Remover Vermelho */}
+        <button
+          className="btn-del"
+          onClick={() => {
+            const novas = personagem.pericias.filter((_, i) => i !== index);
+            setPersonagem({ ...personagem, pericias: novas });
+          }}
+        >
+          X
+        </button>
+      </div>
+    ))}
+  </div>
+</div>
+
           <div className="secao-inferior">
             <div className="coisas3 painel-atributos" style={estiloPainel}>
               <span style={estiloTitulo}>ATRIBUTOS</span>
@@ -335,7 +462,7 @@ const [itemEdicao, setItemEdicao] = useState(null);
                     <input placeholder="Nome do item" value={item.nome} style={{ background: 'transparent', color: corTexto, border: 'none', flex: 2, outline: 'none' }} onChange={(e) => { const novoInv = [...personagem.inventario]; novoInv[index].nome = e.target.value; setPersonagem({ ...personagem, inventario: novoInv }); }} />
                     <input type="number" className="input-qtd" value={item.qtd} style={{ background: 'transparent', color: corTexto, border: `1px solid ${corBordas}`, width: '50px', textAlign: 'center', borderRadius: '4px', outline: 'none', height: '30px' }} onChange={(e) => { const novoInv = [...personagem.inventario]; novoInv[index].qtd = e.target.value; setPersonagem({ ...personagem, inventario: novoInv }); }} />
                     <button onClick={() => setItemEdicao ({ ...item, index })} className="btn-fechar-descricao">DESCRIÇÃO</button>
-                    <button className="btn-del" style={{ background: 'transparent', color: corTexto, border: 'solid', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => setPersonagem({ ...personagem, inventario: personagem.inventario.filter((_, i) => i !== index) })}>×</button>
+                    <button className="btn-del" style={{ background: 'transparent', color: 'rgb(255, 255, 255)', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => setPersonagem({ ...personagem, inventario: personagem.inventario.filter((_, i) => i !== index) })}>X</button>
                   </div>
                 ))}
               </div>
