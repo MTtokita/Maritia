@@ -903,7 +903,7 @@ input, textarea {
   padding: 8px;
   border-radius: 8px;
   align-items: center;
-  width: 800px;
+  width: 500px;
 }
 }
 
@@ -984,7 +984,7 @@ input, textarea {
   padding: 8px;
   border-radius: 8px;
   align-items: center;
-  width: 920px;
+  width: 100%;
 }
 
 /* Força o botão de deletar a ser vermelho */
@@ -1017,3 +1017,5 @@ input, textarea {
   background-color: #1a1a1a; /* Cor de fundo das opções */
   color: white;
 }
+
+
