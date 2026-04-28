@@ -301,22 +301,85 @@ const [itemEdicao, setItemEdicao] = useState(null);
               </div>
             </div>
 
+
             <div className='coisas2' style={estiloPainel}>
-              <div className="status-titulo"><span style={estiloTitulo}>Status</span><button onClick={adicionarStatus} className="btn-add-status">+</button> </div>
-              <div className="status-grid">
-                <div className="campo-input-status"><label>HP</label><input type="number" name="HP" value={personagem.HP} onChange={handleChange} className="input-curto" style={{ ...estiloCampo, color: corTexto, border: `1px solid ${corBordas}` }} /></div>
-                <div className="campo-input-status"><label>MANA</label><input type="number" name="mana" value={personagem.mana} onChange={handleChange} className="input-curto" style={{ ...estiloCampo, color: corTexto, border: `1px solid ${corBordas}` }} /></div>
-                <div className="campo-input-status"><label>ESTAMINA</label><input type="number" name="estamina" value={personagem.estamina} onChange={handleChange} className="input-curto" style={{ ...estiloCampo, color: corTexto, border: `1px solid ${corBordas}` }} /></div>
-                {personagem.statusAdicionais.map((st, index) => (
-                  <div key={index} className="campo-input-status">
-                    <input type="text" value={st.nome} onChange={(e) => mudarStatusAdicional(index, 'nome', e.target.value)} className="input-nome-status" style={{ ...estiloCampo, color: corTexto, border: `1px solid ${corBordas}` }} />
-                    <input type="number" value={st.valor} onChange={(e) => mudarStatusAdicional(index, 'valor', e.target.value)} className="input-curto" style={{ ...estiloCampo, color: corTexto, border: `1px solid ${corBordas}` }} />
-                    <button onClick={() => removerStatusAdicional(index)} className="btn-remover" style={{ background: 'rgb(255, 0, 0)', color: '#ffffff', borderRadius: '6px', height: '22px', width: '22px', border: 'none' }}>×</button>
-                  </div>
-                ))}
-              </div>
-            </div>
+  <div className="status-titulo">
+    <span style={estiloTitulo}>Status</span>
+    <button onClick={adicionarStatus} className="btn-add-status">+</button>
+  </div>
+  
+  <div className="status-grid">
+    {/* Status Fixos: HP, MANA, ESTAMINA */}
+    {[
+      { label: 'HP', atual: 'HP', max: 'HPMax' },
+      { label: 'MANA', atual: 'mana', max: 'manaMax' },
+      { label: 'ESTAMINA', atual: 'estamina', max: 'estaminaMax' }
+    ].map((st) => (
+      <div key={st.label} className="campo-input-status">
+        <label>{st.label}</label>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
+          <input 
+            type="number" 
+            name={st.atual} 
+            value={personagem[st.atual]} 
+            onChange={handleChange} 
+            className="input-curto" 
+            style={{ ...estiloCampo, color: corTexto, border: `1px solid ${corBordas}`, width: '45px' }} 
+          />
+          <span style={{ color: corTexto }}>/</span>
+          <input 
+            type="number" 
+            name={st.max} 
+            value={personagem[st.max] || 0} 
+            onChange={handleChange} 
+            className="input-curto" 
+            style={{ ...estiloCampo, color: corTexto, border: `1px solid ${corBordas}`, width: '45px', opacity: 0.7 }} 
+          />
+        </div>
+      </div>
+    ))}
+
+    {/* Status Adicionais dinâmicos */}
+    {personagem.statusAdicionais.map((st, index) => (
+      <div key={index} className="campo-input-status">
+        <input 
+          type="text" 
+          value={st.nome} 
+          onChange={(e) => mudarStatusAdicional(index, 'nome', e.target.value)} 
+          className="input-nome-status" 
+          style={{ ...estiloCampo, color: corTexto, border: `1px solid ${corBordas}`, width: '70px' }} 
+        />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
+          <input 
+            type="number" 
+            value={st.valor} 
+            onChange={(e) => mudarStatusAdicional(index, 'valor', e.target.value)} 
+            className="input-curto" 
+            style={{ ...estiloCampo, color: corTexto, border: `1px solid ${corBordas}`, width: '40px' }} 
+          />
+          <span style={{ color: corTexto }}>/</span>
+          <input 
+            type="number" 
+            value={st.valorMax || 0} 
+            onChange={(e) => mudarStatusAdicional(index, 'valorMax', e.target.value)} 
+            className="input-curto" 
+            style={{ ...estiloCampo, color: corTexto, border: `1px solid ${corBordas}`, width: '40px', opacity: 0.7 }} 
+          />
+          <button 
+            onClick={() => removerStatusAdicional(index)} 
+            className="btn-remover" 
+            style={{ background: 'rgb(255, 0, 0)', color: '#ffffff', borderRadius: '6px', height: '22px', width: '22px', border: 'none', cursor: 'pointer' }}
+          >
+            ×
+          </button>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
           </div>
+
 
 <div className="coisas2" style={estiloPainel}>
   <div className="inv-header">
@@ -472,7 +535,7 @@ const [itemEdicao, setItemEdicao] = useState(null);
           <div className='coisas3 area-skills' style={estiloPainel}>
             <div className="status-titulo"><span style={estiloTitulo}>SKILLS</span></div>
             <div className="skill-controls">
-              {['Magia', 'Traço', 'Herança', 'Habilidade de Classe'].map(t => (
+              {['Magia', 'Traço', 'Herança', 'Habilidade de Classe','habilidades no geral'].map(t => (
                 <button key={t} className="btn-add" onClick={() => adicionarSkill(t)}>+ {t}</button>
               ))}
             </div>
