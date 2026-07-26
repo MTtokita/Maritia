@@ -13,7 +13,7 @@ function Ficha() {
     foto: null, nome: 'Herói Sem Nome', raca: 'Humano', classes: ['Guerreiro'],
     funcao: 'Tanque', level: 1, xpAtual: 0, xpProximo: 1000, HP: 10, estamina: 30, mana: 15,
     statusAdicionais: [{ nome: 'Armadura', valor: 0 }],
-    atributos: { forca: 10, agilidade: 10, destreza: 10, sabedoria: 10, instintoSB: 10, carisma: 10 },
+    atributos: { forca: 10, agilidade: 10, destreza: 10, sabedoria: 10, resiliencia: 10, carisma: 10 },
     
     inventario: [{ nome: ' item ', qtd: 1, desc: 'descreva o item' }],
     skills: [], 
