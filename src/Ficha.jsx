@@ -510,7 +510,7 @@ const [itemEdicao, setItemEdicao] = useState(null);
               <div className="grid-attr">
                 {Object.keys(personagem.atributos).map((attr) => (
                   <div key={attr} className="attr-item" style={{ ...estiloCampo, display: 'flex', flexDirection: 'column', alignItems: 'center', background: 'transparent', border: 'solid', borderRadius: '10px', borderColor: corBordas, borderWidth: '2px' }}>
-                    <label style={{ color: corTexto, marginBottom: '5px' }}>{attr.toUpperCase()}</label>
+                    <label style={{ color: corTexto, marginBottom: '5px' }}>{attr === 'instintoSB' ? 'resiliencia' : attr.toUpperCase()}</label>
                     <input type="number" value={personagem.atributos[attr]} style={{ backgroundColor: 'rgba(0,0,0,0.2)', color: corTexto, fontSize: '22px', fontWeight: 'bold', textAlign: 'center', border: 'none', width: '60px', borderRadius: '5px', outline: 'none' }} onChange={(e) => setPersonagem({ ...personagem, atributos: { ...personagem.atributos, [attr]: e.target.value } })} />
                   </div>
                 ))}
