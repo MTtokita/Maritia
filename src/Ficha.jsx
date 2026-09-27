@@ -29,6 +29,7 @@ function Ficha() {
   const [corTexto, setCorTexto] = useState('#264364');
   const [corSombra, setCorSombra] = useState('#000000');
   const [fundoAtivo, setFundoAtivo] = useState('https://usagif.com/wp-content/uploads/gifs/water-66.gif');
+  const [fonteAtiva, setFonteAtiva] = useState("'Cinzel', serif");
   
   const salvarFicha = async () => {
     // --- ADICIONADO: Bloqueia o salvamento se ainda estiver carregando ---
@@ -237,7 +238,7 @@ const [itemEdicao, setItemEdicao] = useState(null);
 
       </div>
 
-      <div className='counter2' style={{ backgroundImage: `url(${fundoAtivo})` }}>
+      <div className='counter2' style={{ backgroundImage: `url(${fundoAtivo})`, fontFamily: fonteAtiva, }}>
         <div className='are2'> <img src={brperson} alt="persons" /></div>
         <div className='are1' style={{ backgroundColor: 'transparent', border: 'none' }}>
           <div className='coisas1 header-personagem' style={estiloPainel}>
@@ -593,7 +594,29 @@ const [itemEdicao, setItemEdicao] = useState(null);
               <div className="config-secao"><label>Fundo Painel</label><input type="color" value={corCentro} onChange={(e) => setCorCentro(e.target.value)} /></div>
               <div className="config-secao"><label>Texto</label><input type="color" value={corTexto} onChange={(e) => setCorTexto(e.target.value)} /></div>
               <div className="config-secao"><label>Sombra/Glow</label><input type="color" value={corSombra} onChange={(e) => setCorSombra(e.target.value)} /></div>
+{/* CAMPO DE FONTE */}
+<div className="config-secao" style={{ gridColumn: 'span 2' }}>
+    <label>Fonte do Texto</label>
+    <select 
+      value={fonteAtiva} 
+      onChange={(e) => setFonteAtiva(e.target.value)}
+      style={{ 
+        width: '100%', 
+        padding: '6px', 
+        borderRadius: '5px', 
+        backgroundColor: '#1a1a1a', 
+        color: corTexto, 
+        border: `1px solid ${corBordas}` 
+      }}
+    >
+      <option value="'Cinzel', serif">Medieval / Clássica (Cinzel)</option>
+      <option value="'MedievalSharp', cursive">Gótica (MedievalSharp)</option>
+      <option value="'Inter', sans-serif">Moderna (Inter / Sans-serif)</option>
+      <option value="'Courier New', monospace">Retro / Terminal (Monospace)</option>
+    </select>
+  </div>
             </div>
+
             <button className={`btn-toggle ${bordasAtivas ? 'ligado' : 'desligado'}`} onClick={() => setBordasAtivas(!bordasAtivas)}>
               Bordas: {bordasAtivas ? "ON" : "OFF"}
             </button>
