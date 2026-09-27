@@ -40,7 +40,7 @@ function Ficha() {
       const userRef = doc(db, "usuarios", user.uid);
       try {
         await setDoc(userRef, { 
-          ficha: personagem, corTexto, corBordas, corCentro, fundoAtivo, corSombra, bordasAtivas
+          ficha: personagem, corTexto, corBordas, corCentro, fundoAtivo, corSombra, bordasAtivas,fonteAtiva,
         }, { merge: true });
         console.log("✨ Sincronizado com Maritia!");
       } catch (e) {
@@ -61,11 +61,11 @@ function Ficha() {
     const user = auth.currentUser;
     if (user && carregado) {
       localStorage.setItem(`layout_${user.uid}`, JSON.stringify({
-        corTexto, corBordas, corCentro, fundoAtivo, corSombra, bordasAtivas
+        corTexto, corBordas, corCentro, fundoAtivo, corSombra, bordasAtivas, fonteAtiva,
       }));
       salvarFicha();
     }
-  }, [corTexto, corBordas, corCentro, fundoAtivo, corSombra, bordasAtivas, carregado]);
+  }, [corTexto, corBordas, corCentro, fundoAtivo, corSombra, bordasAtivas, fonteAtiva, carregado]);
 
   const estiloPainel = { backgroundColor: corCentro, borderColor: bordasAtivas ? corBordas : 'transparent', borderStyle: 'solid', borderWidth: '2px', color: corTexto, boxShadow: `0px 0px 15px ${corSombra}`, transition: '0.3s' };
 
@@ -129,6 +129,7 @@ function Ficha() {
           if (L.fundoAtivo) setFundoAtivo(L.fundoAtivo);
           if (L.corSombra) setCorSombra(L.corSombra);
           if (L.bordasAtivas !== undefined) setBordasAtivas(L.bordasAtivas);
+          if (L.fonteAtiva) setFonteAtiva(L.fonteAtiva);
         }
 
         // 2. Busca a "Verdade Absoluta" no Firebase para sincronizar
@@ -143,6 +144,7 @@ function Ficha() {
           if (d.fundoAtivo) setFundoAtivo(d.fundoAtivo);
           if (d.corSombra) setCorSombra(d.corSombra);
           if (d.bordasAtivas !== undefined) setBordasAtivas(d.bordasAtivas);
+          if (d.fonteAtiva) setFonteAtiva(d.fonteAtiva);
         }
       }
       setCarregado(true); // Libera o salvamento
@@ -179,7 +181,8 @@ const resetarLayoutPadrao = async () => {
     corTexto: '#264364',
     corSombra: '#000000',
     fundoAtivo: 'https://usagif.com/wp-content/uploads/gifs/water-66.gif',
-    bordasAtivas: false
+    bordasAtivas: false,
+    fonteAtiva: "'Cinzel', serif",
   };
 
   // 2. Atualiza os estados do React (Para mudar na hora na tela)
@@ -189,6 +192,7 @@ const resetarLayoutPadrao = async () => {
   setCorSombra(padrao.corSombra);
   setFundoAtivo(padrao.fundoAtivo);
   setBordasAtivas(padrao.bordasAtivas);
+  setFonteAtiva(padrao.fonteAtiva);
 
   // 3. Salva no Firebase para não voltar ao erro no F5
  const user = auth.currentUser;
@@ -604,15 +608,25 @@ const [itemEdicao, setItemEdicao] = useState(null);
         width: '100%', 
         padding: '6px', 
         borderRadius: '5px', 
-        backgroundColor: '#1a1a1a', 
+        backgroundColor: '#fdfcfc', 
         color: corTexto, 
         border: `1px solid ${corBordas}` 
       }}
     >
-      <option value="'Cinzel', serif">Medieval / Clássica (Cinzel)</option>
-      <option value="'MedievalSharp', cursive">Gótica (MedievalSharp)</option>
-      <option value="'Inter', sans-serif">Moderna (Inter / Sans-serif)</option>
-      <option value="'Courier New', monospace">Retro / Terminal (Monospace)</option>
+      {/* Fontes Fantasia / Fantasia Clássica */}
+  <option value="'Cinzel', serif">Cinzel (Clássica / Épica)</option>
+  <option value="'MedievalSharp', cursive">MedievalSharp (Estilo Gótico)</option>
+  <option value="'UnifrakturMaguntia', cursive">Unifraktur (Manuscrito Antigo)</option>
+  
+  {/* Fontes Piratas / Manuscritas */}
+  <option value="'Pirata One', display">Pirata One (Temática Pirata)</option>
+  <option value="'Uncial Antiqua', cursive">Uncial Antiqua (Céltica / Runas)</option>
+  <option value="'IM Fell English SC', serif">IM Fell English (Livro Antigo)</option>
+  
+  {/* Fontes Modernas / Limpas */}
+  <option value="'Inter', sans-serif">Inter (Moderna / Limpa)</option>
+  <option value="'Roboto', sans-serif">Roboto (Padrão)</option>
+  <option value="'Courier New', monospace">Courier (Terminal / Monospace)</option>
     </select>
   </div>
             </div>
